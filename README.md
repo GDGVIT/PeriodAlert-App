@@ -10,11 +10,11 @@
 
 ## Functionalities
 - [ ]  Period tracking functionality
-- [ ]  User login
-- [ ]  Setup mechanism to track users in the vicinity
-- [ ]  Give options to select if user wants to be discoverable or not
-- [ ]  Setup mechanism for texting users if help is needed
-- [ ]  Maybe a user review system?
+- [ ]  User signup / login 
+- [ ]  Sending location to backend from the device when help button is pressed
+- [ ]  Checking distance between each phone when notification is recieved from backend and showing notification to user if ditance is less than the threshold.
+- [ ]  Chat mechanism
+- [ ]  User rating system
 
 <br>
 
