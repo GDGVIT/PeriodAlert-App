@@ -1,19 +1,20 @@
 <p align="center">
 	<img src="https://user-images.githubusercontent.com/30529572/72455010-fb38d400-37e7-11ea-9c1e-8cdeb5f5906e.png" />
-	<h2 align="center"> < Insert Project Title Here > </h2>
-	<h4 align="center"> < Insert Project Description Here > <h4>
+	<h2 align="center"> Periods Alert App </h2>
+	<h4 align="center"> A period tracking app with an added functionality to communicate with others also on period in the vicinity and ask for help. <h4>
 </p>
 
----
-[![DOCS](https://img.shields.io/badge/Documentation-see%20docs-green?style=flat-square&logo=appveyor)](INSERT_LINK_FOR_DOCS_HERE) 
+--- 
   [![UI ](https://img.shields.io/badge/User%20Interface-Link%20to%20UI-orange?style=flat-square&logo=appveyor)](INSERT_UI_LINK_HERE)
 
 
 ## Functionalities
-- [ ]  < insert functionality >
-- [ ]  < insert functionality >
-- [ ]  < insert functionality >
-- [ ]  < insert functionality >
+- [ ]  Period tracking functionality
+- [ ]  User signup / login 
+- [ ]  Sending location to backend from the device when help button is pressed
+- [ ]  Checking distance between each phone when notification is recieved from backend and showing notification to user if ditance is less than the threshold.
+- [ ]  Chat mechanism
+- [ ]  User rating system
 
 <br>
 
@@ -21,26 +22,18 @@
 ## Instructions to run
 
 * Pre-requisites:
-	-  < insert pre-requisite >
-	-  < insert pre-requisite >
+	-  Android Studio
+	-  Android SDK
 
-* < directions to install > 
-```bash
-< insert code >
-```
-
-* < directions to execute >
-
-```bash
-< insert code >
-```
+* Directions to install: 
+	-  Clone the project in android studio and run it.
+	-  Or if the apk is provided then download and install that on your phone.
 
 <br>
 
 ## Contributors
 
-* [ < INSERT NAME HERE > ](INSERT_PROFILE_URL_HERE)
-* [ < INSERT NAME HERE > ](INSERT_PROFILE_URL_HERE)
+* [ Rithik Jain ](https://github.com/rithikjain)
 
 
 
