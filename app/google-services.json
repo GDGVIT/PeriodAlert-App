@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "783015487342",
+    "firebase_url": "https://periods-app.firebaseio.com",
+    "project_id": "periods-app",
+    "storage_bucket": "periods-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:783015487342:android:60909f47a3b4e5899c437f",
+        "android_client_info": {
+          "package_name": "com.dscvit.periodsapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "783015487342-fpf5jg2n3a1fjv00cm7oa5c0akakcngh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dscvit.periodsapp",
+            "certificate_hash": "51f98681dccfb3a6749fc19b5bbf37b384631b8a"
+          }
+        },
+        {
+          "client_id": "783015487342-lbh66lnt1td2rl8o83rcscvoehqpatb5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLIThGOQoGZGORR2nDMDs41JCyPmxHbwM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "783015487342-lbh66lnt1td2rl8o83rcscvoehqpatb5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
