@@ -74,4 +74,5 @@ dependencies {
 
     // Firebase
     implementation 'com.google.firebase:firebase-analytics:17.2.2'
+    implementation 'com.google.firebase:firebase-auth:19.2.0'
 }

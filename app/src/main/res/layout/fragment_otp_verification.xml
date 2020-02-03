@@ -4,47 +4,44 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    tools:context=".ui.auth.SignUpFragment">
+    tools:context=".ui.auth.OtpVerificationFragment">
+
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Sign Up"
-        android:textAlignment="center"
+        android:text="OTP"
         android:textColor="#000000"
-        android:textSize="28sp"
-        app:layout_constraintBottom_toTopOf="@+id/phoneNumberEditText"
+        android:textSize="26sp"
+        app:layout_constraintBottom_toTopOf="@+id/otpEditText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/phoneNumberEditText"
+        android:id="@+id/otpEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="phone"
-        android:hint="Phone number"
-        app:layout_constraintBottom_toTopOf="@+id/sendOtpButton"
+        android:hint="Enter OTP"
+        android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@+id/verifyButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <Button
-        android:id="@+id/sendOtpButton"
+        android:id="@+id/verifyButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Send OTP"
+        android:text="Verify"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phoneNumberEditText" />
-
+        app:layout_constraintTop_toBottomOf="@+id/otpEditText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
