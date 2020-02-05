@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import com.dscvit.periodsapp.R
 import com.dscvit.periodsapp.ui.PreAuthActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment() {
@@ -29,7 +30,7 @@ class HomeFragment : Fragment() {
         signOutButton.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
 
-            val intent = Intent(requireActivity(), PreAuthActivity::class.java)
+            val intent = Intent(requireContext(), PreAuthActivity::class.java)
             startActivity(intent)
         }
     }

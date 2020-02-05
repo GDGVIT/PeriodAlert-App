@@ -29,7 +29,8 @@
         tools:layout="@layout/fragment_otp_verification" >
         <action
             android:id="@+id/action_otpVerificationFragment_to_detailsFragment"
-            app:destination="@id/detailsFragment" />
+            app:destination="@id/detailsFragment"
+            app:launchSingleTop="false" />
     </fragment>
     <fragment
         android:id="@+id/detailsFragment"

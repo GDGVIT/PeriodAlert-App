@@ -5,11 +5,12 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.view.View
 import android.widget.EditText
-import android.widget.Toast
 import androidx.core.content.edit
 import androidx.navigation.findNavController
 import com.dscvit.periodsapp.R
 import com.dscvit.periodsapp.ui.auth.SignUpFragmentDirections
+import com.dscvit.periodsapp.utils.longToast
+import com.dscvit.periodsapp.utils.shortToast
 import com.google.android.gms.tasks.Task
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
@@ -19,7 +20,7 @@ import java.util.concurrent.TimeUnit
 class AuthHelper(val context: Context, val view: View, private val activity: Activity) {
 
     // variables for setting up the shared preferences
-    private var PRIVATE_MODE = 0
+    private val PRIVATE_MODE = 0
     private val PREF_NAME = "app-pref"
 
     val sharedPref: SharedPreferences = activity.getSharedPreferences(PREF_NAME, PRIVATE_MODE)
@@ -50,9 +51,9 @@ class AuthHelper(val context: Context, val view: View, private val activity: Act
 
             override fun onVerificationFailed(e: FirebaseException) {
                 if (e is FirebaseAuthInvalidCredentialsException) {
-                    Toast.makeText(context, "Invalid Credential", Toast.LENGTH_LONG).show()
+                    context.longToast("Invalid Credentials")
                 } else if (e is FirebaseTooManyRequestsException) {
-                    Toast.makeText(context, "Too Many Requests", Toast.LENGTH_LONG).show()
+                    context.longToast("Too many requests!")
                 }
             }
         }
@@ -76,11 +77,11 @@ class AuthHelper(val context: Context, val view: View, private val activity: Act
         mAuth.signInWithCredential(credential)
             .addOnCompleteListener {task: Task<AuthResult> ->
                 if (task.isSuccessful) {
-                    Toast.makeText(context, "Successful", Toast.LENGTH_LONG).show()
+                    context.shortToast("Successful")
 
                     view.findNavController().navigate(R.id.detailsFragment)
                 } else {
-                    Toast.makeText(context, "Wrong OTP", Toast.LENGTH_LONG).show()
+                    context.longToast("Wrong OTP")
                 }
             }
     }
