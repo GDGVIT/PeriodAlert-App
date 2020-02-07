@@ -14,10 +14,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService(), KoinComponent {
         val lon = remoteMessage.data["lon"]
         val lat = remoteMessage.data["lat"]
 
-        //Log.d("esh", "FCM: lat:$lat, lon:$lon")
-
         locationHelper.getLocation(lat!!.toDouble(), lon!!.toDouble())
-
     }
 
     override fun onNewToken(p0: String) {

@@ -15,7 +15,7 @@ private const val PERMISSION_REQUEST = 10
 
 class PreAuthActivity : AppCompatActivity() {
 
-    private var permissions = arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION)
+    private var permissions = arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,7 +23,7 @@ class PreAuthActivity : AppCompatActivity() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             if (checkPermission(permissions)) {
-                applicationContext.shortToast("Location Available")
+                applicationContext.shortToast("Permissions Granted")
             } else {
                 requestPermissions(permissions, PERMISSION_REQUEST)
             }

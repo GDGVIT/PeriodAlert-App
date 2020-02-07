@@ -4,6 +4,7 @@
     package="com.dscvit.periodsapp">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -15,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.PostAuthActivity"></activity>
+        <activity android:name=".ui.PostAuthActivity" />
         <activity android:name=".ui.PreAuthActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

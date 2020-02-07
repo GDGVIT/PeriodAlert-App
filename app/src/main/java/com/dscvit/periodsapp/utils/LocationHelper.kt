@@ -1,24 +1,23 @@
 package com.dscvit.periodsapp.utils
 
+import android.content.Context
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
+import android.os.Bundle
 import android.os.Looper
 import android.util.Log
 import com.dscvit.periodsapp.App
-import com.google.android.gms.location.*
 import kotlin.math.*
 
 class LocationHelper {
-    private val fusedLocationClient: FusedLocationProviderClient =
-        LocationServices.getFusedLocationProviderClient(
-            App.context
-        )
-    private val locationRequest: LocationRequest = LocationRequest.create()
 
+    @SuppressWarnings("MissingPermission")
     fun getLocation(fLat: Double, fLon: Double) {
-        locationRequest.priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
-        val locationCallback: LocationCallback = object : LocationCallback() {
-            override fun onLocationResult(locationResult: LocationResult?) {
-                if (locationResult != null) {
-                    val location = locationResult.lastLocation
+        val locationManager = App.context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            locationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, object: LocationListener {
+            override fun onLocationChanged(location: Location?) {
+                if (location != null) {
                     val lat = location.latitude
                     val lon = location.longitude
                     Log.d("esh", "FCM: lat:$fLat, lon:$fLon")
@@ -29,12 +28,13 @@ class LocationHelper {
                     App.context.shortToast(distance.toString())
                 }
             }
-        }
-        fusedLocationClient.requestLocationUpdates(
-            locationRequest,
-            locationCallback,
-            Looper.getMainLooper()
-        )
+
+            override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
+
+            override fun onProviderEnabled(provider: String?) {}
+
+            override fun onProviderDisabled(provider: String?) {}
+        }, Looper.getMainLooper())
     }
 
     private fun calculateDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
