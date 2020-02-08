@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.view.View
 import android.widget.EditText
 import androidx.core.content.edit
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import com.dscvit.periodsapp.R
 import com.dscvit.periodsapp.ui.auth.SignUpFragmentDirections
@@ -42,7 +43,8 @@ class AuthHelper(val context: Context, val view: View, private val activity: Act
                 }
 
                 val action = SignUpFragmentDirections.actionSignUpFragmentToOtpVerificationFragment()
-                view.findNavController().navigate(action)
+                val navController = Navigation.findNavController(activity, R.id.pre_auth_nav_host)
+                navController.navigate(action)
             }
 
             override fun onVerificationCompleted(credential: PhoneAuthCredential) {
@@ -79,7 +81,8 @@ class AuthHelper(val context: Context, val view: View, private val activity: Act
                 if (task.isSuccessful) {
                     context.shortToast("Successful")
 
-                    view.findNavController().navigate(R.id.detailsFragment)
+                    val navController = Navigation.findNavController(activity, R.id.pre_auth_nav_host)
+                    navController.navigate(R.id.detailsFragment)
                 } else {
                     context.longToast("Wrong OTP")
                 }
