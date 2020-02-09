@@ -44,6 +44,8 @@ object CustomNotification {
                 .setBigContentTitle(title)
                 .setSummaryText("Requested to help"))
 
+            .setAutoCancel(true)
+
         notify(context, builder.build())
 
     }
