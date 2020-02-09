@@ -26,6 +26,10 @@ class LocationHelper {
                     val distance = calculateDistance(fLat, fLon, lat, lon)
 
                     App.context.shortToast(distance.toString())
+
+                    if (distance <= 4) {
+                        CustomNotification.notify(App.context, "Requested for help, Approx distance: $distance")
+                    }
                 }
             }
 
