@@ -13,7 +13,7 @@ import kotlin.math.*
 class LocationHelper {
 
     @SuppressWarnings("MissingPermission")
-    fun getLocation(fLat: Double, fLon: Double) {
+    fun getLocationAndNotify(fLat: Double, fLon: Double) {
         val locationManager = App.context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
             locationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, object: LocationListener {
             override fun onLocationChanged(location: Location?) {
