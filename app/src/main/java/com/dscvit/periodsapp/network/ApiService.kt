@@ -33,7 +33,7 @@ object ApiService {
                 )
                 .addHeader(
                     "Authorization",
-                    sharedPreferences.getString(Constants.AUTH_KEY_PREF, "")!!
+                    sharedPreferences.getString("Token " + Constants.AUTH_KEY_PREF, "")!!
                 )
             val request = requestBuilder.build()
             return@addInterceptor chain.proceed(request)
