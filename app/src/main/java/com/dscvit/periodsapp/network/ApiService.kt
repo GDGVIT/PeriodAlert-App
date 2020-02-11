@@ -11,7 +11,7 @@ object ApiService {
 
     fun createRetrofit(context: Context): ApiInterface {
         val retrofit = Retrofit.Builder()
-            .baseUrl("")
+            .baseUrl(Constants.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(getOkHttpClient(context))
             .build()
@@ -24,7 +24,7 @@ object ApiService {
 
         val httpClient = OkHttpClient.Builder()
 
-        httpClient.addInterceptor {chain ->  
+        httpClient.addInterceptor { chain ->
             val original = chain.request()
             val requestBuilder = original.newBuilder()
                 .addHeader(
@@ -33,7 +33,7 @@ object ApiService {
                 )
                 .addHeader(
                     "Authorization",
-                    sharedPreferences.getString("Token " + Constants.AUTH_KEY_PREF, "")!!
+                    sharedPreferences.getString("Token " + Constants.PREF_AUTH_KEY, "")!!
                 )
             val request = requestBuilder.build()
             return@addInterceptor chain.proceed(request)

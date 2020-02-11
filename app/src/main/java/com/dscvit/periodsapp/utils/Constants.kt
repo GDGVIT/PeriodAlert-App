@@ -2,8 +2,10 @@ package com.dscvit.periodsapp.utils
 
 object Constants {
 
-    const val PREF_NAME = "periods_app_pref"
+    const val BASE_URL = "https://periods-alert-app.herokuapp.com"
 
-    const val AUTH_KEY_PREF = "AUTH_KEY"
+    const val PREF_NAME = "periods_app_pref"
+    const val PREF_AUTH_KEY = "PREF_AUTH_KEY"
+    const val PREF_IS_LOGGED_IN = "PREF_IS_LOGGED_IN"
 
 }

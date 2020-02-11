@@ -2,12 +2,15 @@ package com.dscvit.periodsapp.ui
 
 import android.Manifest
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.dscvit.periodsapp.R
+import com.dscvit.periodsapp.utils.Constants
+import com.dscvit.periodsapp.utils.PreferenceHelper
 import com.dscvit.periodsapp.utils.shortToast
 import com.google.firebase.auth.FirebaseAuth
 
@@ -16,10 +19,13 @@ private const val PERMISSION_REQUEST = 10
 class PreAuthActivity : AppCompatActivity() {
 
     private var permissions = arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pre_auth)
+
+        sharedPreferences = PreferenceHelper.customPrefs(this, Constants.PREF_NAME)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             if (checkPermission(permissions)) {
@@ -34,8 +40,9 @@ class PreAuthActivity : AppCompatActivity() {
         super.onStart()
 
         val user = FirebaseAuth.getInstance().currentUser
+        val isLoggedIn = sharedPreferences.getBoolean(Constants.PREF_IS_LOGGED_IN, false)
 
-        if(user != null) {
+        if(user != null && isLoggedIn) {
             val intent = Intent(this, PostAuthActivity::class.java)
             startActivity(intent)
         }
