@@ -10,6 +10,7 @@ import com.dscvit.periodsapp.model.signup.SignupRequest
 import com.dscvit.periodsapp.model.signup.SignupResponse
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 
 interface ApiInterface {
@@ -24,7 +25,12 @@ interface ApiInterface {
     suspend fun registerDevice(@Body registerNotificationRequest: RegisterNotificationRequest):
             Response<RegisterNotificationResponse>
 
+    @PATCH("device_register/")
+    suspend fun updateDeviceDetails(@Body registerNotificationRequest: RegisterNotificationRequest):
+            Response<RegisterNotificationResponse>
+
     @POST("send_alert/")
     suspend fun sendAlert(@Body sendAlertRequest: SendAlertRequest): Response<SendAlertResponse>
 
 }
+

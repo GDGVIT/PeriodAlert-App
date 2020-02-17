@@ -21,6 +21,11 @@ class ApiClient(private val preAuthApi: ApiInterface, private val postAuthApi: A
             postAuthApi.registerDevice(registerNotificationRequest)
         }
 
+    suspend fun updateDeviceDetails(registerNotificationRequest: RegisterNotificationRequest) =
+        getResult {
+            postAuthApi.updateDeviceDetails(registerNotificationRequest)
+        }
+
     suspend fun sendAlert(sendAlertRequest: SendAlertRequest) = getResult {
         postAuthApi.sendAlert(sendAlertRequest)
     }

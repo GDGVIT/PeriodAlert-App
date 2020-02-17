@@ -46,12 +46,12 @@ class PostAuthActivity : AppCompatActivity() {
                 RegisterNotificationRequest(deviceId = deviceId!!, registrationId = fcmToken!!)
 
             authViewModel.registerDevice(registerNotificationRequest).observe(this, Observer {
-                when(it.status) {
+                when (it.status) {
                     Result.Status.LOADING -> {
-                        shortToast("Loading")
+                        shortToast("Registering Loading")
                     }
                     Result.Status.SUCCESS -> {
-                        if(it.data?.message == "New Device Registered") {
+                        if (it.data?.message == "New Device Registered") {
                             shortToast("Device Registered")
                             sharedPreferences[Constants.PREF_TOKEN_IS_UPDATED] = true
                         } else {
@@ -59,7 +59,24 @@ class PostAuthActivity : AppCompatActivity() {
                         }
                     }
                     Result.Status.ERROR -> {
-                        Log.d("esh", "Register Device ${it.message}")
+                        authViewModel.updateDeviceDetails(registerNotificationRequest)
+                            .observe(this, Observer {updateResult ->
+                                when (updateResult.status) {
+                                    Result.Status.LOADING -> {
+                                        shortToast("Loading")
+                                    }
+                                    Result.Status.SUCCESS -> {
+                                        if (updateResult.data?.message == "Device registration_id updated") {
+                                            shortToast("Device Registered")
+                                            sharedPreferences[Constants.PREF_TOKEN_IS_UPDATED] =
+                                                true
+                                        }
+                                    }
+                                    Result.Status.ERROR -> {
+
+                                    }
+                                }
+                            })
                     }
                 }
             })

@@ -20,6 +20,12 @@ class AppRepository(private val apiClient: ApiClient) : BaseRepo() {
     fun registerDevice(registerNotificationRequest: RegisterNotificationRequest) = makeRequest {
         apiClient.registerDevice(registerNotificationRequest)
     }
+
+    fun updateDeviceDetails(registerNotificationRequest: RegisterNotificationRequest) =
+        makeRequest {
+            apiClient.updateDeviceDetails(registerNotificationRequest)
+        }
+
     fun sendAlert(sendAlertRequest: SendAlertRequest) = makeRequest {
         apiClient.sendAlert(sendAlertRequest)
     }

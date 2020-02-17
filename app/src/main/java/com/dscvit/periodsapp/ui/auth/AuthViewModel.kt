@@ -19,6 +19,9 @@ class AuthViewModel(
     fun registerDevice(registerNotificationRequest: RegisterNotificationRequest) =
         repo.registerDevice(registerNotificationRequest)
 
+    fun updateDeviceDetails(registerNotificationRequest: RegisterNotificationRequest) =
+        repo.updateDeviceDetails(registerNotificationRequest)
+
     fun sendAlert(sendAlertRequest: SendAlertRequest) = repo.sendAlert(sendAlertRequest)
 
 }

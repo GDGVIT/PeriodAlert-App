@@ -39,10 +39,9 @@ class PreAuthActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        val user = FirebaseAuth.getInstance().currentUser
         val isLoggedIn = sharedPreferences.getBoolean(Constants.PREF_IS_LOGGED_IN, false)
 
-        if(user != null && isLoggedIn) {
+        if(isLoggedIn) {
             val intent = Intent(this, PostAuthActivity::class.java)
             startActivity(intent)
         }
