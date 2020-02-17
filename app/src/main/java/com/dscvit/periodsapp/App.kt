@@ -19,7 +19,6 @@ class App : Application() {
         }
     }
 
-
     companion object {
         lateinit var context: Context
     }

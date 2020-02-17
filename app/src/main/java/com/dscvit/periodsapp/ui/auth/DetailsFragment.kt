@@ -4,18 +4,32 @@ package com.dscvit.periodsapp.ui.auth
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
+import androidx.lifecycle.Observer
 
 import com.dscvit.periodsapp.R
+import com.dscvit.periodsapp.firebase.AuthHelper
+import com.dscvit.periodsapp.model.Result
+import com.dscvit.periodsapp.model.signup.SignupRequest
+import com.dscvit.periodsapp.model.signup.SignupResponse
+import com.dscvit.periodsapp.network.PreAuthApiService
 import com.dscvit.periodsapp.ui.PostAuthActivity
 import com.dscvit.periodsapp.utils.Constants
 import com.dscvit.periodsapp.utils.PreferenceHelper
 import com.dscvit.periodsapp.utils.PreferenceHelper.set
+import com.dscvit.periodsapp.utils.PreferenceHelper.get
+import com.dscvit.periodsapp.utils.shortToast
 import kotlinx.android.synthetic.main.fragment_details.*
+import kotlinx.coroutines.*
+import org.koin.android.viewmodel.ext.android.getViewModel
+import org.koin.android.viewmodel.ext.android.sharedViewModel
+import java.lang.Exception
+import kotlin.coroutines.coroutineContext
 
 class DetailsFragment : Fragment() {
 
@@ -32,15 +46,47 @@ class DetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val authViewModel by sharedViewModel<AuthViewModel>()
+
         sharedPreferences = PreferenceHelper.customPrefs(requireContext(), Constants.PREF_NAME)
 
         requireActivity().onBackPressedDispatcher.addCallback(this) {}
 
         finishButton.setOnClickListener {
-            sharedPreferences[Constants.PREF_IS_LOGGED_IN] = true
+            val email = emailEditText.text.toString()
+            val name = nameEditText.text.toString()
+            val password = passwordEditText.text.toString()
+            val phoneNumber: String = sharedPreferences[Constants.PREF_PHONE_NUMBER] ?: ""
 
-            val intent = Intent(requireContext(), PostAuthActivity::class.java)
-            startActivity(intent)
+            val signUpRequest = SignupRequest(
+                email = email,
+                username = name,
+                password = password,
+                phoneNo = phoneNumber
+            )
+
+            authViewModel.signUpUser(signUpRequest).observe(viewLifecycleOwner, Observer {
+                when(it.status) {
+                    Result.Status.LOADING -> {
+                        requireContext().shortToast("Loading")
+                    }
+                    Result.Status.SUCCESS -> {
+                        if(it.data?.message == "User Signed up successfully") {
+                            sharedPreferences[Constants.PREF_IS_LOGGED_IN] = true
+                            sharedPreferences[Constants.PREF_AUTH_KEY] = it.data.user.token
+
+                            val intent = Intent(requireContext(), PostAuthActivity::class.java)
+                            startActivity(intent)
+                        } else {
+                            requireContext().shortToast("User Exist")
+                        }
+                    }
+                    Result.Status.ERROR -> {
+                        Log.d("esh", it.message)
+                    }
+                }
+            })
+
         }
     }
 }
