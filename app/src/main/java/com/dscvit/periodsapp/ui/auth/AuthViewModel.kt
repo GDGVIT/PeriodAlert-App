@@ -24,4 +24,6 @@ class AuthViewModel(
 
     fun sendAlert(sendAlertRequest: SendAlertRequest) = repo.sendAlert(sendAlertRequest)
 
+    fun logOut() = repo.logOut()
+
 }

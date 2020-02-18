@@ -30,4 +30,8 @@ class ApiClient(private val preAuthApi: ApiInterface, private val postAuthApi: A
         postAuthApi.sendAlert(sendAlertRequest)
     }
 
+    suspend fun logOut() = getResult() {
+        postAuthApi.logOut()
+    }
+
 }

@@ -29,4 +29,8 @@ class AppRepository(private val apiClient: ApiClient) : BaseRepo() {
     fun sendAlert(sendAlertRequest: SendAlertRequest) = makeRequest {
         apiClient.sendAlert(sendAlertRequest)
     }
+
+    fun logOut() = makeRequest {
+        apiClient.logOut()
+    }
 }

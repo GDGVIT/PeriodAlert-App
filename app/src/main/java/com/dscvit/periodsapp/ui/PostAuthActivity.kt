@@ -57,6 +57,8 @@ class PostAuthActivity : AppCompatActivity() {
                         }
                     }
                     Result.Status.ERROR -> {
+                        Log.d("esh", it.message)
+
                         authViewModel.updateDeviceDetails(registerNotificationRequest)
                             .observe(this, Observer { updateResult ->
                                 when (updateResult.status) {
@@ -71,6 +73,7 @@ class PostAuthActivity : AppCompatActivity() {
                                         }
                                     }
                                     Result.Status.ERROR -> {
+                                        Log.d("esh", updateResult.message)
                                         shortToast("Couldn't Update Device Details ")
                                     }
                                 }

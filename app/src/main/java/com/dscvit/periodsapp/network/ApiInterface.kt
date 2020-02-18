@@ -2,6 +2,7 @@ package com.dscvit.periodsapp.network
 
 import com.dscvit.periodsapp.model.login.LoginRequest
 import com.dscvit.periodsapp.model.login.LoginResponse
+import com.dscvit.periodsapp.model.logout.LogOutResponse
 import com.dscvit.periodsapp.model.registernotification.RegisterNotificationRequest
 import com.dscvit.periodsapp.model.registernotification.RegisterNotificationResponse
 import com.dscvit.periodsapp.model.sendalert.SendAlertRequest
@@ -10,6 +11,7 @@ import com.dscvit.periodsapp.model.signup.SignupRequest
 import com.dscvit.periodsapp.model.signup.SignupResponse
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.POST
 
@@ -31,6 +33,9 @@ interface ApiInterface {
 
     @POST("send_alert/")
     suspend fun sendAlert(@Body sendAlertRequest: SendAlertRequest): Response<SendAlertResponse>
+
+    @GET("logout/")
+    suspend fun logOut(): Response<LogOutResponse>
 
 }
 
