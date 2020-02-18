@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Periods App</string>
+    <string name="channel_id">com.dscvit.periodsapp.CHANNEL_ID</string>
 </resources>

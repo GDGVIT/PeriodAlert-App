@@ -7,9 +7,8 @@ import com.dscvit.periodsapp.utils.PreferenceHelper
 import com.dscvit.periodsapp.utils.PreferenceHelper.set
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import org.koin.core.KoinComponent
 
-class MyFirebaseMessagingService : FirebaseMessagingService(), KoinComponent {
+class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     private val locationHelper = LocationHelper()
 

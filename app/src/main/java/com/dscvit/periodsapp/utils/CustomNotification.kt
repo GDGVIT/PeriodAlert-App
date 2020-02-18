@@ -25,7 +25,7 @@ object CustomNotification {
 
             .setDefaults(Notification.DEFAULT_ALL)
 
-            .setSmallIcon(R.drawable.ic_help)
+            .setSmallIcon(R.drawable.ic_launcher_foreground)
             .setContentTitle(title)
             .setContentText(text)
 
@@ -42,7 +42,7 @@ object CustomNotification {
             .setStyle(NotificationCompat.BigTextStyle()
                 .bigText(text)
                 .setBigContentTitle(title)
-                .setSummaryText("Requested to help"))
+                .setSummaryText("Someone requested to help"))
 
             .setAutoCancel(true)
 

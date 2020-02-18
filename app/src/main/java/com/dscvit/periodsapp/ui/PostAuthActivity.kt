@@ -60,7 +60,7 @@ class PostAuthActivity : AppCompatActivity() {
                     }
                     Result.Status.ERROR -> {
                         authViewModel.updateDeviceDetails(registerNotificationRequest)
-                            .observe(this, Observer {updateResult ->
+                            .observe(this, Observer { updateResult ->
                                 when (updateResult.status) {
                                     Result.Status.LOADING -> {
                                         shortToast("Loading")
