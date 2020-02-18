@@ -48,14 +48,12 @@ class PostAuthActivity : AppCompatActivity() {
             authViewModel.registerDevice(registerNotificationRequest).observe(this, Observer {
                 when (it.status) {
                     Result.Status.LOADING -> {
-                        shortToast("Registering Loading")
+                        //shortToast("Registering Loading")
                     }
                     Result.Status.SUCCESS -> {
                         if (it.data?.message == "New Device Registered") {
                             shortToast("Device Registered")
                             sharedPreferences[Constants.PREF_TOKEN_IS_UPDATED] = true
-                        } else {
-                            shortToast("Error in Registering device")
                         }
                     }
                     Result.Status.ERROR -> {
@@ -63,7 +61,7 @@ class PostAuthActivity : AppCompatActivity() {
                             .observe(this, Observer { updateResult ->
                                 when (updateResult.status) {
                                     Result.Status.LOADING -> {
-                                        shortToast("Loading")
+                                        //shortToast("Loading")
                                     }
                                     Result.Status.SUCCESS -> {
                                         if (updateResult.data?.message == "Device registration_id updated") {
@@ -73,7 +71,7 @@ class PostAuthActivity : AppCompatActivity() {
                                         }
                                     }
                                     Result.Status.ERROR -> {
-
+                                        shortToast("Couldn't Update Device Details ")
                                     }
                                 }
                             })

@@ -10,12 +10,14 @@ import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import com.dscvit.periodsapp.R
 import com.dscvit.periodsapp.ui.auth.SignUpFragmentDirections
+import com.dscvit.periodsapp.utils.enable
 import com.dscvit.periodsapp.utils.longToast
 import com.dscvit.periodsapp.utils.shortToast
 import com.google.android.gms.tasks.Task
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.*
+import kotlinx.android.synthetic.main.fragment_otp_verification.view.*
 import java.util.concurrent.TimeUnit
 
 class AuthHelper(val context: Context, val view: View, private val activity: Activity) {
@@ -79,12 +81,11 @@ class AuthHelper(val context: Context, val view: View, private val activity: Act
         mAuth.signInWithCredential(credential)
             .addOnCompleteListener {task: Task<AuthResult> ->
                 if (task.isSuccessful) {
-                    context.shortToast("Successful")
-
                     val navController = Navigation.findNavController(activity, R.id.pre_auth_nav_host)
                     navController.navigate(R.id.detailsFragment)
                 } else {
                     context.longToast("Wrong OTP")
+                    view.verifyButton.enable()
                 }
             }
     }

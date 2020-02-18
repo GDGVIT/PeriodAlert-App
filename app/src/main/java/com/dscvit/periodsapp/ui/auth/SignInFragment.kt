@@ -16,10 +16,8 @@ import com.dscvit.periodsapp.model.Result
 import com.dscvit.periodsapp.model.login.LoginRequest
 import com.dscvit.periodsapp.network.PreAuthApiService
 import com.dscvit.periodsapp.ui.PostAuthActivity
-import com.dscvit.periodsapp.utils.Constants
-import com.dscvit.periodsapp.utils.PreferenceHelper
+import com.dscvit.periodsapp.utils.*
 import com.dscvit.periodsapp.utils.PreferenceHelper.set
-import com.dscvit.periodsapp.utils.shortToast
 import kotlinx.android.synthetic.main.fragment_sign_in.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -46,6 +44,8 @@ class SignInFragment : Fragment() {
 
         sharedPreferences = PreferenceHelper.customPrefs(requireContext(), Constants.PREF_NAME)
 
+        signInProgressBar.visibility = View.GONE
+
         val authViewModel by sharedViewModel<AuthViewModel>()
 
         signInButton.setOnClickListener {
@@ -57,20 +57,36 @@ class SignInFragment : Fragment() {
             authViewModel.signInUser(loginRequest).observe(viewLifecycleOwner, Observer {
                 when(it.status) {
                     Result.Status.LOADING -> {
-                        requireContext().shortToast("Loading")
+                        signInProgressBar.show()
+
+                        signInButton.hide()
+                        emailEditText.disable()
+                        passwordEditText.disable()
                     }
                     Result.Status.SUCCESS -> {
                         if(it.data?.message == "User Logged In") {
                             sharedPreferences[Constants.PREF_IS_LOGGED_IN] = true
                             sharedPreferences[Constants.PREF_AUTH_KEY] = it.data.user.token
 
+                            signInProgressBar.hide()
+
                             val intent = Intent(requireContext(), PostAuthActivity::class.java)
                             startActivity(intent)
-                        } else {
-                            requireContext().shortToast("Email or password is wrong")
                         }
                     }
                     Result.Status.ERROR -> {
+                        signInProgressBar.hide()
+
+                        signInButton.show()
+                        emailEditText.enable()
+                        passwordEditText.enable()
+
+                        if(it.message == "400 Bad Request") {
+                            requireContext().shortToast("Email or Password is wrong")
+                        } else {
+                            requireContext().shortToast("No Internet")
+                        }
+
                         Log.d("esh", it.message)
                     }
                 }

@@ -10,6 +10,9 @@ import androidx.activity.addCallback
 
 import com.dscvit.periodsapp.R
 import com.dscvit.periodsapp.firebase.AuthHelper
+import com.dscvit.periodsapp.utils.Constants
+import com.dscvit.periodsapp.utils.PreferenceHelper
+import com.dscvit.periodsapp.utils.disable
 import kotlinx.android.synthetic.main.fragment_otp_verification.*
 
 class OtpVerificationFragment : Fragment() {
@@ -25,9 +28,18 @@ class OtpVerificationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val sharedPrefs = PreferenceHelper.customPrefs(requireContext(), Constants.PREF_NAME)
+
+        otpMessageTextView.text = "Please enter the OTP we just sent to, \n${sharedPrefs.getString(
+            Constants.PREF_PHONE_NUMBER,
+            ""
+        )}"
+
         requireActivity().onBackPressedDispatcher.addCallback(this) {}
 
         verifyButton.setOnClickListener {
+            verifyButton.disable()
+
             val authHelper = AuthHelper(requireContext(), view, requireActivity())
             authHelper.authenticate(otpEditText)
         }

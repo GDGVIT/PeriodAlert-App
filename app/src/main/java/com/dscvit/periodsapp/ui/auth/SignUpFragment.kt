@@ -34,6 +34,8 @@ class SignUpFragment : Fragment() {
             val authHelper = AuthHelper(requireContext(), view, requireActivity())
             authHelper.sendOtp(phoneNumberEditText)
 
+            sendOtpButton.isEnabled = false
+
             sharedPreferences[Constants.PREF_PHONE_NUMBER] = phoneNumberEditText.text.toString()
         }
 
