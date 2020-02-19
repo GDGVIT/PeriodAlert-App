@@ -13,6 +13,7 @@ import com.dscvit.periodsapp.firebase.AuthHelper
 import com.dscvit.periodsapp.utils.Constants
 import com.dscvit.periodsapp.utils.PreferenceHelper
 import com.dscvit.periodsapp.utils.disable
+import com.dscvit.periodsapp.utils.shortToast
 import kotlinx.android.synthetic.main.fragment_otp_verification.*
 
 class OtpVerificationFragment : Fragment() {
@@ -38,10 +39,14 @@ class OtpVerificationFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(this) {}
 
         verifyButton.setOnClickListener {
-            verifyButton.disable()
+            if (otpEditText.text.length == 6) {
+                verifyButton.disable()
 
-            val authHelper = AuthHelper(requireContext(), view, requireActivity())
-            authHelper.authenticate(otpEditText)
+                val authHelper = AuthHelper(requireContext(), view, requireActivity())
+                authHelper.authenticate(otpEditText)
+            } else {
+                requireContext().shortToast("Enter a six digit OTP")
+            }
         }
     }
 }

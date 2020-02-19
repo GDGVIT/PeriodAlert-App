@@ -12,6 +12,7 @@ import com.dscvit.periodsapp.firebase.AuthHelper
 import com.dscvit.periodsapp.utils.Constants
 import com.dscvit.periodsapp.utils.PreferenceHelper
 import com.dscvit.periodsapp.utils.PreferenceHelper.set
+import com.dscvit.periodsapp.utils.shortToast
 import kotlinx.android.synthetic.main.fragment_sign_up.*
 
 class SignUpFragment : Fragment() {
@@ -31,12 +32,17 @@ class SignUpFragment : Fragment() {
 
         // Gets the phone number and sends otp using firebase
         sendOtpButton.setOnClickListener {
-            val authHelper = AuthHelper(requireContext(), view, requireActivity())
-            authHelper.sendOtp(phoneNumberEditText)
+            if (phoneNumberEditText.text.length == 10) {
 
-            sendOtpButton.isEnabled = false
+                val authHelper = AuthHelper(requireContext(), view, requireActivity())
+                authHelper.sendOtp(phoneNumberEditText)
 
-            sharedPreferences[Constants.PREF_PHONE_NUMBER] = phoneNumberEditText.text.toString()
+                sendOtpButton.isEnabled = false
+
+                sharedPreferences[Constants.PREF_PHONE_NUMBER] = phoneNumberEditText.text.toString()
+            } else {
+                requireContext().shortToast("Enter a valid phone number")
+            }
         }
 
         signInInsteadButton.setOnClickListener {
