@@ -46,6 +46,9 @@ class HomeFragment : Fragment() {
 
         helpButton.setOnClickListener {
             helpButton.disable()
+            homeProgressBar.show()
+            helpButton.hide()
+            signOutButton.hide()
 
             getLocationAndSendAlert()
         }
@@ -97,7 +100,13 @@ class HomeFragment : Fragment() {
 
             override fun onProviderEnabled(provider: String?) {}
 
-            override fun onProviderDisabled(provider: String?) {}
+            override fun onProviderDisabled(provider: String?) {
+                helpButton.show()
+                helpButton.enable()
+                homeProgressBar.hide()
+                signOutButton.show()
+                requireContext().shortToast("Turn on Location")
+            }
         }, Looper.getMainLooper())
     }
 
@@ -105,11 +114,7 @@ class HomeFragment : Fragment() {
         val sendAlertRequest = SendAlertRequest(lat, lon)
         homeViewModel.sendAlert(sendAlertRequest).observe(viewLifecycleOwner, Observer {
             when(it.status) {
-                Result.Status.LOADING -> {
-                    homeProgressBar.show()
-                    helpButton.hide()
-                    signOutButton.hide()
-                }
+                Result.Status.LOADING -> { }
                 Result.Status.SUCCESS -> {
                     if(it.data?.message == "Sent notificaion") {
                         helpButton.show()
