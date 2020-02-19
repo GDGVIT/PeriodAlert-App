@@ -8,7 +8,9 @@ import android.os.Bundle
 import android.os.Looper
 import android.util.Log
 import com.dscvit.periodsapp.App
+import java.util.*
 import kotlin.math.*
+
 
 class LocationHelper {
 
@@ -30,9 +32,11 @@ class LocationHelper {
                         val distance = calculateDistance(fLat, fLon, lat, lon)
 
                         if (distance <= 5) {
+                            val id = (Date().time / 1000L % Int.MAX_VALUE).toInt()
                             CustomNotification.notify(
                                 App.context,
-                                "Approx Distance: $distance"
+                                "Approx Distance: $distance",
+                                id
                             )
                         }
                     }
