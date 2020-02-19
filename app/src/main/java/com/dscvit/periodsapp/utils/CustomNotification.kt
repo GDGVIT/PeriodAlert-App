@@ -9,6 +9,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import com.dscvit.periodsapp.R
 import com.dscvit.periodsapp.ui.PostAuthActivity
 
@@ -19,13 +20,14 @@ object CustomNotification {
 
     fun notify(context: Context, text: String) {
 
-        val title = "Request to help"
+        val title = "Request For Help"
 
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
 
             .setDefaults(Notification.DEFAULT_ALL)
 
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setSmallIcon(R.drawable.ic_lightdrop)
+            .setColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
             .setContentTitle(title)
             .setContentText(text)
 
@@ -41,8 +43,7 @@ object CustomNotification {
 
             .setStyle(NotificationCompat.BigTextStyle()
                 .bigText(text)
-                .setBigContentTitle(title)
-                .setSummaryText("Someone requested to help"))
+                .setBigContentTitle(title))
 
             .setAutoCancel(true)
 

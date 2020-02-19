@@ -32,7 +32,7 @@ class LocationHelper {
                         if (distance <= 5) {
                             CustomNotification.notify(
                                 App.context,
-                                "Requested for help, Approx distance: $distance"
+                                "Approx Distance: $distance"
                             )
                         }
                     }
