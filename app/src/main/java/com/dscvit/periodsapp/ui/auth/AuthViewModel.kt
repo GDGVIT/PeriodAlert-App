@@ -3,14 +3,10 @@ package com.dscvit.periodsapp.ui.auth
 import androidx.lifecycle.ViewModel
 import com.dscvit.periodsapp.model.login.LoginRequest
 import com.dscvit.periodsapp.model.registernotification.RegisterNotificationRequest
-import com.dscvit.periodsapp.model.sendalert.SendAlertRequest
 import com.dscvit.periodsapp.model.signup.SignupRequest
 import com.dscvit.periodsapp.repository.AppRepository
 
-class AuthViewModel(
-    private val repo: AppRepository
-) :
-    ViewModel() {
+class AuthViewModel(private val repo: AppRepository) : ViewModel() {
 
     fun signUpUser(signupRequest: SignupRequest) = repo.signUpUser(signupRequest)
 
@@ -21,9 +17,5 @@ class AuthViewModel(
 
     fun updateDeviceDetails(registerNotificationRequest: RegisterNotificationRequest) =
         repo.updateDeviceDetails(registerNotificationRequest)
-
-    fun sendAlert(sendAlertRequest: SendAlertRequest) = repo.sendAlert(sendAlertRequest)
-
-    fun logOut() = repo.logOut()
 
 }
