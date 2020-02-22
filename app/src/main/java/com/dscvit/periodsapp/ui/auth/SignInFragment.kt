@@ -55,46 +55,51 @@ class SignInFragment : Fragment() {
             val loginRequest = LoginRequest(email = email, password = password, username = null)
 
             if (isEmailValid(email)) {
+                if (password.isNotEmpty()) {
 
-                authViewModel.signInUser(loginRequest).observe(viewLifecycleOwner, Observer {
-                    when (it.status) {
-                        Result.Status.LOADING -> {
-                            signInProgressBar.show()
+                    authViewModel.signInUser(loginRequest).observe(viewLifecycleOwner, Observer {
+                        when (it.status) {
+                            Result.Status.LOADING -> {
+                                signInProgressBar.show()
 
-                            signInButton.hide()
-                            emailEditText.disable()
-                            passwordEditText.disable()
-                        }
-                        Result.Status.SUCCESS -> {
-                            if (it.data?.message == "User Logged In") {
-                                sharedPreferences[Constants.PREF_IS_LOGGED_IN] = true
-                                sharedPreferences[Constants.PREF_AUTH_KEY] = it.data.user.token
+                                signInButton.hide()
+                                emailEditText.disable()
+                                passwordEditText.disable()
+                            }
+                            Result.Status.SUCCESS -> {
+                                if (it.data?.message == "User Logged In") {
+                                    sharedPreferences[Constants.PREF_IS_LOGGED_IN] = true
+                                    sharedPreferences[Constants.PREF_AUTH_KEY] = it.data.user.token
 
+                                    signInProgressBar.hide()
+
+                                    val intent =
+                                        Intent(requireContext(), PostAuthActivity::class.java)
+                                    startActivity(intent)
+                                }
+                            }
+                            Result.Status.ERROR -> {
                                 signInProgressBar.hide()
 
-                                val intent = Intent(requireContext(), PostAuthActivity::class.java)
-                                startActivity(intent)
+                                signInButton.show()
+                                emailEditText.enable()
+                                passwordEditText.enable()
+
+                                if (it.message == "400 Bad Request") {
+                                    requireContext().shortToast("Email or Password is wrong")
+                                } else if (it.message == "500 Internal Server Error") {
+                                    requireContext().shortToast("500 Error")
+                                } else {
+                                    requireContext().shortToast("No Internet")
+                                }
+
+                                Log.d("esh", it.message)
                             }
                         }
-                        Result.Status.ERROR -> {
-                            signInProgressBar.hide()
-
-                            signInButton.show()
-                            emailEditText.enable()
-                            passwordEditText.enable()
-
-                            if (it.message == "400 Bad Request") {
-                                requireContext().shortToast("Email or Password is wrong")
-                            } else if (it.message == "500 Internal Server Error") {
-                                requireContext().shortToast("500 Error")
-                            } else {
-                                requireContext().shortToast("No Internet")
-                            }
-
-                            Log.d("esh", it.message)
-                        }
-                    }
-                })
+                    })
+                } else {
+                    requireContext().shortToast("Password cannot be empty")
+                }
             } else {
                 requireContext().shortToast("Enter a valid Email")
             }

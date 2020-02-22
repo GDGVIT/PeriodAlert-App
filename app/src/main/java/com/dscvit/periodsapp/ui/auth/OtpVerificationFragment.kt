@@ -10,10 +10,7 @@ import androidx.activity.addCallback
 
 import com.dscvit.periodsapp.R
 import com.dscvit.periodsapp.firebase.AuthHelper
-import com.dscvit.periodsapp.utils.Constants
-import com.dscvit.periodsapp.utils.PreferenceHelper
-import com.dscvit.periodsapp.utils.disable
-import com.dscvit.periodsapp.utils.shortToast
+import com.dscvit.periodsapp.utils.*
 import kotlinx.android.synthetic.main.fragment_otp_verification.*
 
 class OtpVerificationFragment : Fragment() {
@@ -41,6 +38,7 @@ class OtpVerificationFragment : Fragment() {
         verifyButton.setOnClickListener {
             if (otpEditText.text.length == 6) {
                 verifyButton.disable()
+                verifyButton.hide()
 
                 val authHelper = AuthHelper(requireContext(), view, requireActivity())
                 authHelper.authenticate(otpEditText)

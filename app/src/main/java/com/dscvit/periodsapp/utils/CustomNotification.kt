@@ -35,7 +35,7 @@ object CustomNotification {
             .setContentTitle(title)
             .setContentText(text)
 
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
 
             .setGroup(GROUP_NOTIFICATION)
 
@@ -61,7 +61,7 @@ object CustomNotification {
             .setContentText("Help Requests")
             .setSmallIcon(R.drawable.ic_lightdrop)
             .setColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
-            .setPriority(NotificationCompat.PRIORITY_LOW)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setGroup(GROUP_NOTIFICATION)
             .setGroupSummary(true)
 

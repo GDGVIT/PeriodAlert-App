@@ -17,6 +17,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val lat = remoteMessage.data["lat"]
         val user_id = remoteMessage.data["user_id"]
 
+        Log.d("esh", "FCM Received")
+
         locationHelper.getLocationAndNotify(lat!!.toDouble(), lon!!.toDouble())
     }
 

@@ -61,56 +61,65 @@ class DetailsFragment : Fragment() {
 
             if (isEmailValid(email)) {
                 if (password == confirmPassword) {
-                    val signUpRequest = SignupRequest(
-                        email = email,
-                        username = name,
-                        password = password,
-                        phoneNo = phoneNumber
-                    )
+                    if (name.isNotEmpty() && password.isNotEmpty()) {
+                        val signUpRequest = SignupRequest(
+                            email = email,
+                            username = name,
+                            password = password,
+                            phoneNo = phoneNumber
+                        )
 
-                    authViewModel.signUpUser(signUpRequest).observe(viewLifecycleOwner, Observer {
-                        when (it.status) {
-                            Result.Status.LOADING -> {
-                                detailsProgressBar.show()
+                        authViewModel.signUpUser(signUpRequest)
+                            .observe(viewLifecycleOwner, Observer {
+                                when (it.status) {
+                                    Result.Status.LOADING -> {
+                                        detailsProgressBar.show()
 
-                                finishButton.hide()
-                                emailEditText.disable()
-                                nameEditText.disable()
-                                passwordEditText.disable()
-                                confirmPasswordEditText.disable()
-                            }
-                            Result.Status.SUCCESS -> {
-                                if (it.data?.message == "User Signed up successfully") {
-                                    sharedPreferences[Constants.PREF_IS_LOGGED_IN] = true
-                                    sharedPreferences[Constants.PREF_AUTH_KEY] = it.data.user.token
+                                        finishButton.hide()
+                                        emailEditText.disable()
+                                        nameEditText.disable()
+                                        passwordEditText.disable()
+                                        confirmPasswordEditText.disable()
+                                    }
+                                    Result.Status.SUCCESS -> {
+                                        if (it.data?.message == "User Signed up successfully") {
+                                            sharedPreferences[Constants.PREF_IS_LOGGED_IN] = true
+                                            sharedPreferences[Constants.PREF_AUTH_KEY] =
+                                                it.data.user.token
 
-                                    detailsProgressBar.hide()
+                                            detailsProgressBar.hide()
 
-                                    val intent =
-                                        Intent(requireContext(), PostAuthActivity::class.java)
-                                    startActivity(intent)
+                                            val intent =
+                                                Intent(
+                                                    requireContext(),
+                                                    PostAuthActivity::class.java
+                                                )
+                                            startActivity(intent)
+                                        }
+                                    }
+                                    Result.Status.ERROR -> {
+                                        if (it.message == "400 Bad Request") {
+                                            requireContext().shortToast("User Exist, Try Signing In")
+                                        } else if (it.message == "500 Internal Server Error") {
+                                            requireContext().shortToast("500 Error")
+                                        } else {
+                                            requireContext().shortToast("No Internet")
+                                        }
+
+                                        finishButton.show()
+                                        emailEditText.enable()
+                                        nameEditText.enable()
+                                        passwordEditText.enable()
+                                        confirmPasswordEditText.enable()
+
+                                        detailsProgressBar.hide()
+                                        Log.d("esh", it.message)
+                                    }
                                 }
-                            }
-                            Result.Status.ERROR -> {
-                                if (it.message == "400 Bad Request") {
-                                    requireContext().shortToast("User Exist, Try Signing In")
-                                } else if (it.message == "500 Internal Server Error") {
-                                    requireContext().shortToast("500 Error")
-                                } else {
-                                    requireContext().shortToast("No Internet")
-                                }
-
-                                finishButton.show()
-                                emailEditText.enable()
-                                nameEditText.enable()
-                                passwordEditText.enable()
-                                confirmPasswordEditText.enable()
-
-                                detailsProgressBar.hide()
-                                Log.d("esh", it.message)
-                            }
-                        }
-                    })
+                            })
+                    } else {
+                        requireContext().shortToast("Fields cannot be empty")
+                    }
                 } else {
                     requireContext().shortToast("Passwords don't match")
                 }

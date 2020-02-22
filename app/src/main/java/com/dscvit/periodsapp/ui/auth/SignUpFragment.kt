@@ -9,10 +9,8 @@ import androidx.navigation.Navigation
 
 import com.dscvit.periodsapp.R
 import com.dscvit.periodsapp.firebase.AuthHelper
-import com.dscvit.periodsapp.utils.Constants
-import com.dscvit.periodsapp.utils.PreferenceHelper
+import com.dscvit.periodsapp.utils.*
 import com.dscvit.periodsapp.utils.PreferenceHelper.set
-import com.dscvit.periodsapp.utils.shortToast
 import kotlinx.android.synthetic.main.fragment_sign_up.*
 
 class SignUpFragment : Fragment() {
@@ -33,11 +31,11 @@ class SignUpFragment : Fragment() {
         // Gets the phone number and sends otp using firebase
         sendOtpButton.setOnClickListener {
             if (phoneNumberEditText.text.length == 10) {
+                sendOtpButton.disable()
+                sendOtpButton.hide()
 
                 val authHelper = AuthHelper(requireContext(), view, requireActivity())
                 authHelper.sendOtp(phoneNumberEditText)
-
-                sendOtpButton.isEnabled = false
 
                 sharedPreferences[Constants.PREF_PHONE_NUMBER] = phoneNumberEditText.text.toString()
             } else {
