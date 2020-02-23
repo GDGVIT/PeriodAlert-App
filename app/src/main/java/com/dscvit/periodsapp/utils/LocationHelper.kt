@@ -15,7 +15,7 @@ import kotlin.math.*
 class LocationHelper {
 
     @SuppressWarnings("MissingPermission")
-    fun getLocationAndNotify(fLat: Double, fLon: Double) {
+    fun getLocationAndNotify(fLat: Double, fLon: Double, receiverId: Int) {
         val locationManager =
             App.context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
@@ -36,7 +36,8 @@ class LocationHelper {
                             CustomNotification.notify(
                                 App.context,
                                 "Approx Distance: $distance",
-                                id
+                                id,
+                                receiverId
                             )
                         }
                     }

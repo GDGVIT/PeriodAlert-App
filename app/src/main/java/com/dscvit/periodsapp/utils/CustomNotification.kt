@@ -12,6 +12,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.dscvit.periodsapp.R
 import com.dscvit.periodsapp.ui.PostAuthActivity
+import com.dscvit.periodsapp.ui.chat.ChatActivity
 
 object CustomNotification {
 
@@ -20,11 +21,14 @@ object CustomNotification {
     private const val GROUP_NOTIFICATION = "com.dscvit.periodsapp.GROUP_NOTIFICATION"
     private var mId = 0
 
-    fun notify(context: Context, text: String, id: Int) {
+    fun notify(context: Context, text: String, id: Int, receiverId: Int) {
 
         mId = id
 
         val title = "Request For Help"
+
+        val intent = Intent(context, ChatActivity::class.java)
+        intent.putExtra(Constants.PREF_RECEIVER_ID, receiverId)
 
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
 
@@ -43,7 +47,7 @@ object CustomNotification {
                 PendingIntent.getActivity(
                     context,
                     0,
-                    Intent(context, PostAuthActivity::class.java),
+                    intent,
                     PendingIntent.FLAG_UPDATE_CURRENT
                 )
             )

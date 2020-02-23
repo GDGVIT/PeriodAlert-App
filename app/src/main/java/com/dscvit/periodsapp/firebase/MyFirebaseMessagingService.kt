@@ -13,13 +13,19 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     private val locationHelper = LocationHelper()
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        val lon = remoteMessage.data["lon"]
-        val lat = remoteMessage.data["lat"]
-        val user_id = remoteMessage.data["user_id"]
+        if (!remoteMessage.data.isNullOrEmpty()) {
+            val lon = remoteMessage.data["lon"]
+            val lat = remoteMessage.data["lat"]
+            val userId = remoteMessage.data["user_id"]
+
+            locationHelper.getLocationAndNotify(
+                lat!!.toDouble(),
+                lon!!.toDouble(),
+                userId!!.toInt()
+            )
+        }
 
         Log.d("esh", "FCM Received")
-
-        locationHelper.getLocationAndNotify(lat!!.toDouble(), lon!!.toDouble())
     }
 
     override fun onNewToken(token: String) {

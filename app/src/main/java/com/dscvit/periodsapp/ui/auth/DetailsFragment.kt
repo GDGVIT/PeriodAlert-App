@@ -86,6 +86,8 @@ class DetailsFragment : Fragment() {
                                             sharedPreferences[Constants.PREF_IS_LOGGED_IN] = true
                                             sharedPreferences[Constants.PREF_AUTH_KEY] =
                                                 it.data.user.token
+                                            sharedPreferences[Constants.PREF_USER_ID] =
+                                                it.data.user.id
 
                                             detailsProgressBar.hide()
 
