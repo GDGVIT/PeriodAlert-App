@@ -1,5 +1,7 @@
 package com.dscvit.periodsapp.network
 
+import com.dscvit.periodsapp.model.chat.ChatMessagesResponse
+import com.dscvit.periodsapp.model.chat.ChatRoomResponse
 import com.dscvit.periodsapp.model.login.LoginRequest
 import com.dscvit.periodsapp.model.login.LoginResponse
 import com.dscvit.periodsapp.model.logout.LogOutResponse
@@ -10,10 +12,7 @@ import com.dscvit.periodsapp.model.sendalert.SendAlertResponse
 import com.dscvit.periodsapp.model.signup.SignupRequest
 import com.dscvit.periodsapp.model.signup.SignupResponse
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.PATCH
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface ApiInterface {
 
@@ -36,6 +35,12 @@ interface ApiInterface {
 
     @GET("logout/")
     suspend fun logOut(): Response<LogOutResponse>
+
+    @GET("view_chat_rooms/")
+    suspend fun viewChatRooms(): Response<ChatRoomResponse>
+
+    @GET("previous_messages/{chatRoomId}/")
+    suspend fun getMessages(@Path("chatRoomId") chatRoomId: Int): Response<ChatMessagesResponse>
 
 }
 

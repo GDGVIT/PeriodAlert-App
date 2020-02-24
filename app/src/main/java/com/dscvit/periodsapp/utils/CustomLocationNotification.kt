@@ -11,10 +11,9 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.dscvit.periodsapp.R
-import com.dscvit.periodsapp.ui.PostAuthActivity
 import com.dscvit.periodsapp.ui.chat.ChatActivity
 
-object CustomNotification {
+object CustomLocationNotification {
 
     private const val CHANNEL_ID = "com.dscvit.periodsapp.CHANNEL_ID"
     private const val NOTIFICATION_TAG = "FCM_HELP"

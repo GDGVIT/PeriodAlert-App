@@ -30,8 +30,16 @@ class ApiClient(private val preAuthApi: ApiInterface, private val postAuthApi: A
         postAuthApi.sendAlert(sendAlertRequest)
     }
 
-    suspend fun logOut() = getResult() {
+    suspend fun logOut() = getResult {
         postAuthApi.logOut()
+    }
+
+    suspend fun viewChatRooms() = getResult {
+        postAuthApi.viewChatRooms()
+    }
+
+    suspend fun getMessages(chatRoomId: Int) = getResult {
+        postAuthApi.getMessages(chatRoomId)
     }
 
 }

@@ -20,7 +20,7 @@ class LocationHelper {
             App.context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
         locationManager.requestSingleUpdate(
-            LocationManager.NETWORK_PROVIDER,
+            LocationManager.GPS_PROVIDER,
             object : LocationListener {
                 override fun onLocationChanged(location: Location?) {
                     if (location != null) {
@@ -33,7 +33,7 @@ class LocationHelper {
 
                         if (distance <= 5) {
                             val id = (Date().time / 1000L % Int.MAX_VALUE).toInt()
-                            CustomNotification.notify(
+                            CustomLocationNotification.notify(
                                 App.context,
                                 "Approx Distance: $distance",
                                 id,

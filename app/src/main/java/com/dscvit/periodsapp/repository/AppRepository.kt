@@ -33,4 +33,12 @@ class AppRepository(private val apiClient: ApiClient) : BaseRepo() {
     fun logOut() = makeRequest {
         apiClient.logOut()
     }
+
+    fun viewChatRooms() = makeRequest {
+        apiClient.viewChatRooms()
+    }
+
+    fun getMessages(chatRoomId: Int) = makeRequest {
+        apiClient.getMessages(chatRoomId)
+    }
 }

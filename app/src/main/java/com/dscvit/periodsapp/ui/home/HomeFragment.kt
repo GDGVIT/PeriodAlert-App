@@ -86,7 +86,7 @@ class HomeFragment : Fragment() {
         val locationManager =
             requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
-        locationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, object: LocationListener{
+        locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, object: LocationListener{
             override fun onLocationChanged(location: Location?) {
                 if(location != null) {
                     val lat = location.latitude
