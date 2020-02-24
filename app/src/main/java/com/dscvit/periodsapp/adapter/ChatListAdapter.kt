@@ -1,13 +1,11 @@
 package com.dscvit.periodsapp.adapter
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.dscvit.periodsapp.R
 import com.dscvit.periodsapp.model.chat.ChatRoom
-import com.dscvit.periodsapp.ui.chat.ChatActivity
 import kotlinx.android.synthetic.main.chats_recycler_view_item.view.*
 
 class ChatListAdapter : RecyclerView.Adapter<ChatListAdapter.ChatViewHolder>() {

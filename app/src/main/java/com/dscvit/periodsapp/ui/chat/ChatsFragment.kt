@@ -4,22 +4,24 @@ package com.dscvit.periodsapp.ui.chat
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-
 import com.dscvit.periodsapp.R
 import com.dscvit.periodsapp.adapter.ChatListAdapter
 import com.dscvit.periodsapp.model.Result
+import com.dscvit.periodsapp.model.chat.ChatRoom
 import com.dscvit.periodsapp.utils.*
 import kotlinx.android.synthetic.main.fragment_chats.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 
 class ChatsFragment : Fragment() {
+
+    private lateinit var chatRooms: List<ChatRoom>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,6 +33,9 @@ class ChatsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val sharedPrefs = PreferenceHelper.customPrefs(requireContext(), Constants.PREF_NAME)
+        val userId = sharedPrefs.getInt(Constants.PREF_USER_ID, 0)
 
         val chatViewModel by sharedViewModel<ChatViewModel>()
         val chatListAdapter = ChatListAdapter()
@@ -44,26 +49,18 @@ class ChatsFragment : Fragment() {
         chatMsgTextView.hide()
 
         chatViewModel.viewChatRooms().observe(viewLifecycleOwner, Observer {
-            when(it.status) {
-                Result.Status.LOADING -> { }
+            when (it.status) {
+                Result.Status.LOADING -> {
+                }
                 Result.Status.SUCCESS -> {
-                    if (it.data?.message == "Chat rooms found") {
-                        val chatRooms = it.data.chatRooms
-                        chatListAdapter.updateChats(chatRooms)
-                        chatProgressBar.hide()
-                        chatRoomRecyclerView.show()
-                        chatMsgTextView.show()
-
-                        chatRoomRecyclerView.addOnItemClickListener(object: OnItemClickListener {
-                            override fun onItemClicked(position: Int, view: View) {
-                                val intent = Intent(requireContext(), ChatActivity::class.java)
-                                intent.putExtra(Constants.PREF_CHAT_ROOM_ID, chatRooms[position].id)
-                                startActivity(intent)
-                            }
-                        })
-                    }
+                    chatRooms = it.data!!
+                    chatListAdapter.updateChats(chatRooms)
+                    chatProgressBar.hide()
+                    chatRoomRecyclerView.show()
+                    chatMsgTextView.show()
                 }
                 Result.Status.ERROR -> {
+                    Log.d("esh", it.message)
                     if (it.message == "Network called failed with message HTTP 204 had non-zero Content-Length: 37") {
                         requireContext().shortToast("No Chats Available")
                     } else {
@@ -73,6 +70,22 @@ class ChatsFragment : Fragment() {
                     chatRoomRecyclerView.show()
                     chatMsgTextView.show()
                 }
+            }
+        })
+
+        chatRoomRecyclerView.addOnItemClickListener(object : OnItemClickListener {
+            var receiverId = 0
+            override fun onItemClicked(position: Int, view: View) {
+                if (chatRooms[position].participant1Id == userId) {
+                    receiverId = chatRooms[position].participant2Id
+                } else {
+                    receiverId = chatRooms[position].participant1Id
+                }
+
+                val intent = Intent(requireContext(), ChatActivity::class.java)
+                intent.putExtra(Constants.PREF_CHAT_ROOM_ID, chatRooms[position].id)
+                intent.putExtra(Constants.PREF_RECEIVER_ID, receiverId)
+                startActivity(intent)
             }
         })
     }

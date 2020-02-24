@@ -1,5 +1,7 @@
 package com.dscvit.periodsapp.repository
 
+import com.dscvit.periodsapp.db.ChatsDao
+import com.dscvit.periodsapp.model.chat.Message
 import com.dscvit.periodsapp.model.login.LoginRequest
 import com.dscvit.periodsapp.model.registernotification.RegisterNotificationRequest
 import com.dscvit.periodsapp.model.sendalert.SendAlertRequest
@@ -8,7 +10,7 @@ import com.dscvit.periodsapp.network.ApiClient
 import com.dscvit.periodsapp.network.ApiInterface
 import com.dscvit.periodsapp.network.BaseApiClient
 
-class AppRepository(private val apiClient: ApiClient) : BaseRepo() {
+class AppRepository(private val apiClient: ApiClient, private val chatsDao: ChatsDao) : BaseRepo() {
     fun signUpUser(signupRequest: SignupRequest) = makeRequest {
         apiClient.signUpUser(signupRequest)
     }
@@ -34,11 +36,22 @@ class AppRepository(private val apiClient: ApiClient) : BaseRepo() {
         apiClient.logOut()
     }
 
-    fun viewChatRooms() = makeRequest {
-        apiClient.viewChatRooms()
-    }
+    fun viewChatRooms() = makeRequestAndSave (
+        databaseQuery = { chatsDao.getAllChatRooms() },
+        networkCall = { apiClient.viewChatRooms() },
+        saveCallResult = { chatsDao.insertChatRooms(it.chatRooms) }
+    )
 
-    fun getMessages(chatRoomId: Int) = makeRequest {
-        apiClient.getMessages(chatRoomId)
-    }
+    fun getMessages(chatRoomId: Int) = makeRequestAndSave(
+        databaseQuery = { chatsDao.loadMessagesByChatRoomId(chatRoomId) },
+        networkCall = { apiClient.getMessages(chatRoomId) },
+        saveCallResult = { chatsDao.insertMessages(it.messages) }
+    )
+
+    suspend fun insertMessage(message: Message) = chatsDao.insertMessage(message)
+
+    suspend fun deleteChatRooms() = chatsDao.deleteChatRooms()
+
+    suspend fun deleteMessages() = chatsDao.deleteMessages()
+
 }

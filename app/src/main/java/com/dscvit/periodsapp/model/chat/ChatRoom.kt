@@ -1,11 +1,15 @@
 package com.dscvit.periodsapp.model.chat
 
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
+@Entity(tableName = "chatrooms")
 data class ChatRoom(
     @SerializedName("date_time_creation")
     val dateTimeCreation: String,
+    @PrimaryKey
     @SerializedName("id")
     val id: Int,
     @SerializedName("last_message_time")

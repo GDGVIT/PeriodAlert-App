@@ -14,20 +14,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 
 import com.dscvit.periodsapp.R
 import com.dscvit.periodsapp.model.Result
 import com.dscvit.periodsapp.model.sendalert.SendAlertRequest
 import com.dscvit.periodsapp.ui.PreAuthActivity
+import com.dscvit.periodsapp.ui.chat.ChatViewModel
 import com.dscvit.periodsapp.utils.*
 import com.dscvit.periodsapp.utils.PreferenceHelper.set
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class HomeFragment : Fragment() {
 
     private val homeViewModel by sharedViewModel<HomeViewModel>()
+    private val chatViewModel by sharedViewModel<ChatViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,6 +71,11 @@ class HomeFragment : Fragment() {
 
                             sharedPreferences[Constants.PREF_IS_LOGGED_IN] = false
                             sharedPreferences[Constants.PREF_TOKEN_IS_UPDATED] = false
+
+                            lifecycleScope.launch {
+                                chatViewModel.deleteChatRooms()
+                                chatViewModel.deleteMessages()
+                            }
 
                             val intent = Intent(requireContext(), PreAuthActivity::class.java)
                             startActivity(intent)

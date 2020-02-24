@@ -1,9 +1,7 @@
 package com.dscvit.periodsapp.ui.chat
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dscvit.periodsapp.R
@@ -19,17 +17,22 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 class ChatActivity : AppCompatActivity() {
 
-//    private lateinit var baseUrl: String
-//    private lateinit var ws: WebSocket
-//    private lateinit var client: OkHttpClient
-//    private lateinit var wsListener: ChatWsListener
+    private lateinit var baseUrl: String
+    private lateinit var ws: WebSocket
+    private lateinit var client: OkHttpClient
+    private lateinit var wsListener: ChatWsListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
 
+        val sharedPref = PreferenceHelper.customPrefs(this, Constants.PREF_NAME)
+
         val extras = intent.extras
         val chatRoomId = extras?.getInt(Constants.PREF_CHAT_ROOM_ID)
+        val senderId = sharedPref.getInt(Constants.PREF_USER_ID, 0)
+        val receiverId = extras?.getInt(Constants.PREF_RECEIVER_ID)
+        val authKey = sharedPref.getString(Constants.PREF_AUTH_KEY, "")
 
         val chatViewModel by viewModel<ChatViewModel>()
         val messageListAdapter = MessageListAdapter()
@@ -46,7 +49,7 @@ class ChatActivity : AppCompatActivity() {
             when(it.status) {
                 Result.Status.LOADING -> { }
                 Result.Status.SUCCESS -> {
-                    val messagesList = it.data?.messages
+                    val messagesList = it.data
                     messageListAdapter.updateMessages(messagesList!!)
                     messagesProgressBar.hide()
                     messages_recycler_view.show()
@@ -61,32 +64,22 @@ class ChatActivity : AppCompatActivity() {
             }
         })
 
-        /*
-        val sharedPref = PreferenceHelper.customPrefs(this, Constants.PREF_NAME)
-        val extras = intent.extras
-        val authKey = sharedPref.getString(Constants.PREF_AUTH_KEY, "")
-        val receiverId = extras?.getInt(Constants.PREF_RECEIVER_ID)
-        val senderId = sharedPref.getInt(Constants.PREF_USER_ID, 0)
-
         client = OkHttpClient()
-        wsListener = ChatWsListener(msgsTextView)
+        wsListener = ChatWsListener(sendMessageButton)
 
         baseUrl = "${Constants.WS_BASE_URL}$authKey/$receiverId/1/"
 
         val request = Request.Builder().url(baseUrl).build()
         ws = client.newWebSocket(request, wsListener)
 
-        sendButton.setOnClickListener {
-            val msg = msgEditText.text.toString()
+        sendMessageButton.setOnClickListener {
+            val msg = messageEditText.text.toString()
             ws.send("{\"message\": \"$msg\", \"sender_id\": $senderId, \"receiver_id\": $receiverId}")
         }
-         */
     }
 
-    /*
     override fun onDestroy() {
         super.onDestroy()
         ws.close(1000, "Close Normal")
     }
-     */
 }
