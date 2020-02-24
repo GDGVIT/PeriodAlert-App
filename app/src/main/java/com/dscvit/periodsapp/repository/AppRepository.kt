@@ -7,8 +7,6 @@ import com.dscvit.periodsapp.model.registernotification.RegisterNotificationRequ
 import com.dscvit.periodsapp.model.sendalert.SendAlertRequest
 import com.dscvit.periodsapp.model.signup.SignupRequest
 import com.dscvit.periodsapp.network.ApiClient
-import com.dscvit.periodsapp.network.ApiInterface
-import com.dscvit.periodsapp.network.BaseApiClient
 
 class AppRepository(private val apiClient: ApiClient, private val chatsDao: ChatsDao) : BaseRepo() {
     fun signUpUser(signupRequest: SignupRequest) = makeRequest {

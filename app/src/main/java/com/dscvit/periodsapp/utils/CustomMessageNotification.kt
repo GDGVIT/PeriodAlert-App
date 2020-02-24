@@ -27,7 +27,7 @@ object CustomMessageNotification {
         val title = "New Message From $name"
 
         val intent = Intent(context, ChatActivity::class.java)
-        intent.putExtra(Constants.PREF_RECEIVER_ID, receiverId)
+        intent.putExtra(Constants.EXTRA_RECEIVER_ID, receiverId)
 
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
 

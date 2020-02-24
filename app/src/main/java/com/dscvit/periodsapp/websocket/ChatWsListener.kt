@@ -1,29 +1,50 @@
 package com.dscvit.periodsapp.websocket
 
-import android.os.Handler
-import android.os.Looper
+import android.content.Context
 import android.util.Log
-import android.view.View
-import com.dscvit.periodsapp.utils.show
+import com.dscvit.periodsapp.model.chat.Message
+import com.dscvit.periodsapp.repository.AppRepository
+import com.dscvit.periodsapp.utils.Constants
+import com.dscvit.periodsapp.utils.PreferenceHelper
+import com.google.gson.Gson
+import com.google.gson.JsonObject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import okhttp3.Response
 import okhttp3.WebSocket
 import okhttp3.WebSocketListener
 
 
-class ChatWsListener(private val view: View): WebSocketListener() {
+class ChatWsListener(context: Context, private val repo: AppRepository): WebSocketListener() {
+    companion object { var id: Int = (5000..100000).random() }
+
+    private val sharedPrefs = PreferenceHelper.customPrefs(context, Constants.PREF_NAME)
 
     override fun onOpen(webSocket: WebSocket, response: Response) {
         super.onOpen(webSocket, response)
         Log.d("esh", "Web Socket is open")
-
-        Handler(Looper.getMainLooper()).post {
-            view.show()
-        }
     }
 
     override fun onMessage(webSocket: WebSocket, text: String) {
         super.onMessage(webSocket, text)
         Log.d("esh", "Message Received: $text")
+
+        val chatRoomId = sharedPrefs.getInt(Constants.PREF_CURR_CHAT_ROOM, 0)
+        id += 1
+
+        val messageObject: JsonObject = Gson().fromJson(text, JsonObject::class.java)
+        val body = messageObject.get("message").asString
+        val receiverId = messageObject.get("receiver_id").asInt
+        val senderId = messageObject.get("sender_id").asInt
+
+        val message = Message(body, chatRoomId, "", id, receiverId, senderId)
+
+        runBlocking {
+            withContext(Dispatchers.IO) {
+                repo.insertMessage(message)
+            }
+        }
     }
 
     override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {

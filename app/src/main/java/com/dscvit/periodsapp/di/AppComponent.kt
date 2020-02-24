@@ -1,8 +1,5 @@
 package com.dscvit.periodsapp.di
 
-import com.dscvit.periodsapp.di.modules.apiModule
-import com.dscvit.periodsapp.di.modules.repoModule
-import com.dscvit.periodsapp.di.modules.roomModule
-import com.dscvit.periodsapp.di.modules.viewModelModule
+import com.dscvit.periodsapp.di.modules.*
 
-val appComponent = listOf(apiModule, repoModule, viewModelModule, roomModule)
+val appComponent = listOf(apiModule, repoModule, viewModelModule, roomModule, wsModule)

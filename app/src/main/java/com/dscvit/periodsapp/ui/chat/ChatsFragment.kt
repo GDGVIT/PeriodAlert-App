@@ -22,6 +22,8 @@ import org.koin.android.viewmodel.ext.android.sharedViewModel
 class ChatsFragment : Fragment() {
 
     private lateinit var chatRooms: List<ChatRoom>
+    private val chatViewModel by sharedViewModel<ChatViewModel>()
+    private lateinit var chatListAdapter: ChatListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,8 +39,7 @@ class ChatsFragment : Fragment() {
         val sharedPrefs = PreferenceHelper.customPrefs(requireContext(), Constants.PREF_NAME)
         val userId = sharedPrefs.getInt(Constants.PREF_USER_ID, 0)
 
-        val chatViewModel by sharedViewModel<ChatViewModel>()
-        val chatListAdapter = ChatListAdapter()
+        chatListAdapter = ChatListAdapter()
         chatRoomRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = chatListAdapter
@@ -83,8 +84,8 @@ class ChatsFragment : Fragment() {
                 }
 
                 val intent = Intent(requireContext(), ChatActivity::class.java)
-                intent.putExtra(Constants.PREF_CHAT_ROOM_ID, chatRooms[position].id)
-                intent.putExtra(Constants.PREF_RECEIVER_ID, receiverId)
+                intent.putExtra(Constants.EXTRA_CHAT_ROOM_ID, chatRooms[position].id)
+                intent.putExtra(Constants.EXTRA_RECEIVER_ID, receiverId)
                 startActivity(intent)
             }
         })
