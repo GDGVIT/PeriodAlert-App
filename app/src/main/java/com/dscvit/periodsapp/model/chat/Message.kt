@@ -13,11 +13,11 @@ data class Message(
     val chatRoomId: Int,
     @SerializedName("date_time_creation")
     val dateTimeCreation: String,
-    @PrimaryKey
-    @SerializedName("id")
-    val id: Int,
     @SerializedName("receiver_id")
     val receiverId: Int,
     @SerializedName("sender_id")
     val senderId: Int
-)
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}

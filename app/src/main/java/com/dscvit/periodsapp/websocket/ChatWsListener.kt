@@ -17,7 +17,6 @@ import okhttp3.WebSocketListener
 
 
 class ChatWsListener(context: Context, private val repo: AppRepository): WebSocketListener() {
-    companion object { var id: Int = (5000..100000).random() }
 
     private val sharedPrefs = PreferenceHelper.customPrefs(context, Constants.PREF_NAME)
 
@@ -31,14 +30,13 @@ class ChatWsListener(context: Context, private val repo: AppRepository): WebSock
         Log.d("esh", "Message Received: $text")
 
         val chatRoomId = sharedPrefs.getInt(Constants.PREF_CURR_CHAT_ROOM, 0)
-        id += 1
 
         val messageObject: JsonObject = Gson().fromJson(text, JsonObject::class.java)
         val body = messageObject.get("message").asString
         val receiverId = messageObject.get("receiver_id").asInt
         val senderId = messageObject.get("sender_id").asInt
 
-        val message = Message(body, chatRoomId, "", id, receiverId, senderId)
+        val message = Message(body, chatRoomId, "", receiverId, senderId)
 
         runBlocking {
             withContext(Dispatchers.IO) {

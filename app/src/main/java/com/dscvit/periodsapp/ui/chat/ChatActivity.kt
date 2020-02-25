@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.dscvit.periodsapp.R
 import com.dscvit.periodsapp.adapter.MessageListAdapter
 import com.dscvit.periodsapp.model.Result
+import com.dscvit.periodsapp.model.chat.Message
 import com.dscvit.periodsapp.utils.*
 import com.dscvit.periodsapp.utils.PreferenceHelper.set
 import com.dscvit.periodsapp.websocket.ChatWsListener
@@ -17,6 +18,7 @@ import okhttp3.WebSocket
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 
+
 class ChatActivity : AppCompatActivity() {
 
     private lateinit var baseUrl: String
@@ -25,6 +27,7 @@ class ChatActivity : AppCompatActivity() {
     private val chatViewModel by viewModel<ChatViewModel>()
     private lateinit var messageListAdapter: MessageListAdapter
     private var chatRoomId: Int? = null
+    private lateinit var messagesList: List<Message>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,27 +43,33 @@ class ChatActivity : AppCompatActivity() {
         val authKey = sharedPref.getString(Constants.PREF_AUTH_KEY, "")
 
 
+        val linearLayoutManager = LinearLayoutManager(this)
+        linearLayoutManager.stackFromEnd = true
         messageListAdapter = MessageListAdapter()
         messages_recycler_view.apply {
             adapter = messageListAdapter
-            layoutManager = LinearLayoutManager(context)
+            layoutManager = linearLayoutManager
         }
 
         messagesProgressBar.show()
         messages_recycler_view.hide()
         sendMessageLayout.hide()
 
+        scrollDown()
+
         chatViewModel.getMessages(chatRoomId ?: 0).observe(this, Observer {
             when (it.status) {
                 Result.Status.LOADING -> {
                 }
                 Result.Status.SUCCESS -> {
-                    val messagesList = it.data
+                    messagesList = it.data!!
 
-                    messageListAdapter.updateMessages(messagesList!!)
+                    messageListAdapter.updateMessages(messagesList)
                     messagesProgressBar.hide()
                     messages_recycler_view.show()
                     sendMessageLayout.show()
+                    messages_recycler_view.smoothScrollToPosition(messageListAdapter.itemCount)
+                    messages_recycler_view.smoothScrollBy(0, 200)
                 }
                 Result.Status.ERROR -> {
                     shortToast("Error in getting messages")
@@ -89,5 +98,16 @@ class ChatActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         ws.close(1000, "Close Normal")
+    }
+
+    private fun scrollDown() {
+        messages_recycler_view.addOnLayoutChangeListener{ view, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
+            if (bottom < oldBottom) {
+                messages_recycler_view.postDelayed(
+                    { messages_recycler_view.smoothScrollToPosition(messageListAdapter.itemCount) },
+                    100
+                )
+            }
+        }
     }
 }
