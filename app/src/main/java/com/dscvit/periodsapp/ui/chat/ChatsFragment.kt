@@ -39,7 +39,7 @@ class ChatsFragment : Fragment() {
         val sharedPrefs = PreferenceHelper.customPrefs(requireContext(), Constants.PREF_NAME)
         val userId = sharedPrefs.getInt(Constants.PREF_USER_ID, 0)
 
-        chatListAdapter = ChatListAdapter()
+        chatListAdapter = ChatListAdapter(requireContext())
         chatRoomRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = chatListAdapter
@@ -55,6 +55,7 @@ class ChatsFragment : Fragment() {
                 }
                 Result.Status.SUCCESS -> {
                     chatRooms = it.data!!
+
                     chatListAdapter.updateChats(chatRooms)
                     chatProgressBar.hide()
                     chatRoomRecyclerView.show()

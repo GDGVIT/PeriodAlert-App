@@ -1,6 +1,7 @@
 package com.dscvit.periodsapp.ui.chat
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -42,7 +43,6 @@ class ChatActivity : AppCompatActivity() {
         val receiverId = extras?.getInt(Constants.EXTRA_RECEIVER_ID)
         val authKey = sharedPref.getString(Constants.PREF_AUTH_KEY, "")
 
-
         val linearLayoutManager = LinearLayoutManager(this)
         linearLayoutManager.stackFromEnd = true
         messageListAdapter = MessageListAdapter()
@@ -64,6 +64,8 @@ class ChatActivity : AppCompatActivity() {
                 Result.Status.SUCCESS -> {
                     messagesList = it.data!!
 
+                    Log.d("esh", "ChatRoomID: $chatRoomId")
+
                     messageListAdapter.updateMessages(messagesList)
                     messagesProgressBar.hide()
                     messages_recycler_view.show()
@@ -76,6 +78,8 @@ class ChatActivity : AppCompatActivity() {
                     messagesProgressBar.hide()
                     messages_recycler_view.show()
                     sendMessageLayout.show()
+                    messages_recycler_view.smoothScrollToPosition(messageListAdapter.itemCount)
+                    messages_recycler_view.smoothScrollBy(0, 200)
                 }
             }
         })
