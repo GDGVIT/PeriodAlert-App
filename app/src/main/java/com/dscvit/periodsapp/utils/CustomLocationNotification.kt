@@ -9,49 +9,75 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import com.dscvit.periodsapp.R
-import com.dscvit.periodsapp.ui.PostAuthActivity
+import com.dscvit.periodsapp.ui.chat.ChatActivity
 
-object CustomNotification {
+object CustomLocationNotification {
 
     private const val CHANNEL_ID = "com.dscvit.periodsapp.CHANNEL_ID"
     private const val NOTIFICATION_TAG = "FCM_HELP"
+    private const val GROUP_NOTIFICATION = "com.dscvit.periodsapp.GROUP_NOTIFICATION"
+    private var mId = 0
 
-    fun notify(context: Context, text: String) {
+    fun notify(context: Context, text: String, id: Int, receiverId: Int) {
 
-        val title = "Request to help"
+        mId = id
+
+        val title = "Request For Help"
+
+        val intent = Intent(context, ChatActivity::class.java)
+        intent.putExtra(Constants.EXTRA_RECEIVER_ID, receiverId)
 
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
 
             .setDefaults(Notification.DEFAULT_ALL)
 
-            .setSmallIcon(R.drawable.ic_help)
+            .setSmallIcon(R.drawable.ic_lightdrop)
+            .setColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
             .setContentTitle(title)
             .setContentText(text)
 
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+
+            .setGroup(GROUP_NOTIFICATION)
 
             .setContentIntent(
                 PendingIntent.getActivity(
                     context,
                     0,
-                    Intent(context, PostAuthActivity::class.java),
+                    intent,
                     PendingIntent.FLAG_UPDATE_CURRENT
-                ))
+                )
+            )
 
-            .setStyle(NotificationCompat.BigTextStyle()
-                .bigText(text)
-                .setBigContentTitle(title)
-                .setSummaryText("Requested to help"))
+            .setStyle(
+                NotificationCompat.BigTextStyle()
+                    .bigText(text)
+                    .setBigContentTitle(title)
+            )
 
             .setAutoCancel(true)
 
-        notify(context, builder.build())
+        val summaryNotification = NotificationCompat.Builder(context, CHANNEL_ID)
+            .setContentTitle(title)
+            .setContentText("Help Requests")
+            .setSmallIcon(R.drawable.ic_lightdrop)
+            .setColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setGroup(GROUP_NOTIFICATION)
+            .setGroupSummary(true)
+
+        notify(context, builder.build(), summaryNotification.build())
 
     }
 
     @TargetApi(Build.VERSION_CODES.ECLAIR)
-    private fun notify(context: Context, notification: Notification) {
+    private fun notify(
+        context: Context,
+        notification: Notification,
+        summaryNotification: Notification
+    ) {
         val nm = context
             .getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
@@ -60,7 +86,8 @@ object CustomNotification {
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            nm.notify(NOTIFICATION_TAG, 0, notification)
+            nm.notify(NOTIFICATION_TAG, mId, notification)
+            nm.notify(0, summaryNotification)
         } else {
             nm.notify(NOTIFICATION_TAG.hashCode(), notification)
         }
@@ -71,7 +98,7 @@ object CustomNotification {
         val nm = context
             .getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            nm.cancel(NOTIFICATION_TAG, 0)
+            nm.cancel(NOTIFICATION_TAG, mId)
         } else {
             nm.cancel(NOTIFICATION_TAG.hashCode())
         }

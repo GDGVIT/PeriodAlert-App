@@ -5,14 +5,15 @@
 </p>
 
 --- 
-  [![UI ](https://img.shields.io/badge/User%20Interface-Link%20to%20UI-orange?style=flat-square&logo=appveyor)](INSERT_UI_LINK_HERE)
+  [![UI ](https://img.shields.io/badge/User%20Interface-Link%20to%20UI-orange?style=flat-square&logo=appveyor)](https://www.figma.com/file/nC4gPly1Ez6lkj4XmwUV6j/PeriodsApp)
+  [![UI ](https://img.shields.io/badge/Backend-Link%20to%20DOCS-orange?style=flat-square&logo=appveyor)](https://documenter.getpostman.com/view/7638824/SWTHbEzf?version=latest)
 
 
 ## Functionalities
 - [ ]  Period tracking functionality
-- [ ]  User signup / login 
-- [ ]  Sending location to backend from the device when help button is pressed
-- [ ]  Checking distance between each phone when notification is recieved from backend and showing notification to user if ditance is less than the threshold.
+- [x]  User signup / login 
+- [x]  Sending location to backend from the device when help button is pressed
+- [x]  Checking distance between each phone when notification is recieved from backend and showing notification to user if ditance is less than the threshold.
 - [ ]  Chat mechanism
 - [ ]  User rating system
 

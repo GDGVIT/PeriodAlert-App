@@ -7,18 +7,18 @@ import android.view.View
 import android.widget.EditText
 import androidx.core.content.edit
 import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import com.dscvit.periodsapp.R
 import com.dscvit.periodsapp.ui.auth.SignUpFragmentDirections
-import com.dscvit.periodsapp.utils.longToast
-import com.dscvit.periodsapp.utils.shortToast
+import com.dscvit.periodsapp.utils.*
 import com.google.android.gms.tasks.Task
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.*
+import kotlinx.android.synthetic.main.fragment_otp_verification.view.*
+import kotlinx.android.synthetic.main.fragment_sign_up.view.*
 import java.util.concurrent.TimeUnit
 
-class AuthHelper(val context: Context, val view: View, private val activity: Activity) {
+class AuthHelper(val context: Context, private val view: View, private val activity: Activity) {
 
     // variables for setting up the shared preferences
     private val PRIVATE_MODE = 0
@@ -54,8 +54,12 @@ class AuthHelper(val context: Context, val view: View, private val activity: Act
             override fun onVerificationFailed(e: FirebaseException) {
                 if (e is FirebaseAuthInvalidCredentialsException) {
                     context.longToast("Invalid Credentials")
+                    view.sendOtpButton.enable()
+                    view.sendOtpButton.show()
                 } else if (e is FirebaseTooManyRequestsException) {
                     context.longToast("Too many requests!")
+                    view.sendOtpButton.enable()
+                    view.sendOtpButton.show()
                 }
             }
         }
@@ -79,12 +83,12 @@ class AuthHelper(val context: Context, val view: View, private val activity: Act
         mAuth.signInWithCredential(credential)
             .addOnCompleteListener {task: Task<AuthResult> ->
                 if (task.isSuccessful) {
-                    context.shortToast("Successful")
-
                     val navController = Navigation.findNavController(activity, R.id.pre_auth_nav_host)
                     navController.navigate(R.id.detailsFragment)
                 } else {
                     context.longToast("Wrong OTP")
+                    view.verifyButton.show()
+                    view.verifyButton.enable()
                 }
             }
     }

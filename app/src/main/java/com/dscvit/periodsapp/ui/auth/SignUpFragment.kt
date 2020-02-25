@@ -5,9 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 
 import com.dscvit.periodsapp.R
 import com.dscvit.periodsapp.firebase.AuthHelper
+import com.dscvit.periodsapp.utils.*
+import com.dscvit.periodsapp.utils.PreferenceHelper.set
 import kotlinx.android.synthetic.main.fragment_sign_up.*
 
 class SignUpFragment : Fragment() {
@@ -23,10 +26,27 @@ class SignUpFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val sharedPreferences = PreferenceHelper.customPrefs(requireContext(), Constants.PREF_NAME)
+
         // Gets the phone number and sends otp using firebase
         sendOtpButton.setOnClickListener {
-            val authHelper = AuthHelper(requireContext(), view, requireActivity())
-            authHelper.sendOtp(phoneNumberEditText)
+            if (phoneNumberEditText.text.length == 10) {
+                sendOtpButton.disable()
+                sendOtpButton.hide()
+
+                val authHelper = AuthHelper(requireContext(), view, requireActivity())
+                authHelper.sendOtp(phoneNumberEditText)
+
+                sharedPreferences[Constants.PREF_PHONE_NUMBER] = phoneNumberEditText.text.toString()
+            } else {
+                requireContext().shortToast("Enter a valid phone number")
+            }
+        }
+
+        signInInsteadButton.setOnClickListener {
+            val navController =
+                Navigation.findNavController(requireActivity(), R.id.pre_auth_nav_host)
+            navController.navigate(R.id.signInFragment)
         }
 
     }

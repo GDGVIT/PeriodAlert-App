@@ -4,6 +4,8 @@ package com.dscvit.periodsapp.model.signup
 import com.google.gson.annotations.SerializedName
 
 data class User(
+    @SerializedName("id")
+    val id: Int,
     @SerializedName("date_of_birth")
     val dateOfBirth: String,
     @SerializedName("email")

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Periods App</string>
+    <string name="channel_id">com.dscvit.periodsapp.CHANNEL_ID</string>
+    <string name="no_internet">Network called failed with message Unable to resolve host "periods-alert-app.herokuapp.com": No address associated with hostname</string>
 </resources>

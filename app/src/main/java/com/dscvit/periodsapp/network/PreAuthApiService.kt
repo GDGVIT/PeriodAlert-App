@@ -2,12 +2,11 @@ package com.dscvit.periodsapp.network
 
 import android.content.Context
 import com.dscvit.periodsapp.utils.Constants
-import com.dscvit.periodsapp.utils.PreferenceHelper
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object ApiService {
+object PreAuthApiService {
 
     fun createRetrofit(context: Context): ApiInterface {
         val retrofit = Retrofit.Builder()
@@ -20,8 +19,6 @@ object ApiService {
     }
 
     private fun getOkHttpClient(context: Context): OkHttpClient {
-        val sharedPreferences = PreferenceHelper.customPrefs(context, Constants.PREF_NAME)
-
         val httpClient = OkHttpClient.Builder()
 
         httpClient.addInterceptor { chain ->
@@ -30,10 +27,6 @@ object ApiService {
                 .addHeader(
                     "Content-Type",
                     "application/json"
-                )
-                .addHeader(
-                    "Authorization",
-                    sharedPreferences.getString("Token " + Constants.PREF_AUTH_KEY, "")!!
                 )
             val request = requestBuilder.build()
             return@addInterceptor chain.proceed(request)
