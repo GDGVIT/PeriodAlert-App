@@ -15,4 +15,9 @@
         android:name="com.dscvit.periodsapp.ui.chat.ChatsFragment"
         android:label="fragment_chats"
         tools:layout="@layout/fragment_chats" />
+    <fragment
+        android:id="@+id/requestsFragment"
+        android:name="com.dscvit.periodsapp.ui.requests.RequestsFragment"
+        android:label="fragment_requests"
+        tools:layout="@layout/fragment_requests" />
 </navigation>

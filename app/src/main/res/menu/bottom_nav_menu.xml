@@ -7,6 +7,11 @@
         app:showAsAction="always"
         android:icon="@drawable/ic_home"/>
 
+    <item android:id="@+id/requestsFragment"
+        android:title="Requests"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_notification" />
+
     <item android:id="@+id/chatsFragment"
         android:title="Chats"
         app:showAsAction="always"

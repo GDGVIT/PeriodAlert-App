@@ -20,7 +20,7 @@ class LocationHelper {
             App.context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
         locationManager.requestSingleUpdate(
-            LocationManager.GPS_PROVIDER,
+            LocationManager.NETWORK_PROVIDER,
             object : LocationListener {
                 override fun onLocationChanged(location: Location?) {
                     if (location != null) {
