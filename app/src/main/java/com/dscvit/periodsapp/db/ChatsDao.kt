@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.dscvit.periodsapp.model.chat.ChatRoom
 import com.dscvit.periodsapp.model.chat.Message
+import com.dscvit.periodsapp.model.requests.Request
 
 @Dao
 interface ChatsDao {
@@ -12,6 +13,9 @@ interface ChatsDao {
 
     @Query("SELECT * FROM messages WHERE chatRoomId = :chatId")
     fun loadMessagesByChatRoomId(chatId: Int): LiveData<List<Message>>
+
+    @Query("SELECT * FROM requests")
+    fun getAllRequests(): LiveData<List<Request>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertChatRooms(chatRooms: List<ChatRoom>)
@@ -22,9 +26,15 @@ interface ChatsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMessage(message: Message)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun upsertRequest(request: Request)
+
     @Query("DELETE FROM chatrooms")
     suspend fun deleteChatRooms()
 
     @Query("DELETE FROM messages")
     suspend fun deleteMessages()
+
+    @Query("DELETE FROM requests")
+    suspend fun deleteRequests()
 }

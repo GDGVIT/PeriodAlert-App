@@ -21,6 +21,7 @@ import com.dscvit.periodsapp.model.Result
 import com.dscvit.periodsapp.model.sendalert.SendAlertRequest
 import com.dscvit.periodsapp.ui.PreAuthActivity
 import com.dscvit.periodsapp.ui.chat.ChatViewModel
+import com.dscvit.periodsapp.ui.requests.RequestsViewModel
 import com.dscvit.periodsapp.utils.*
 import com.dscvit.periodsapp.utils.PreferenceHelper.set
 import com.google.firebase.auth.FirebaseAuth
@@ -34,6 +35,7 @@ class HomeFragment : Fragment() {
 
     private val homeViewModel by sharedViewModel<HomeViewModel>()
     private val chatViewModel by sharedViewModel<ChatViewModel>()
+    private val requestsViewModel by sharedViewModel<RequestsViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -75,6 +77,7 @@ class HomeFragment : Fragment() {
                             lifecycleScope.launch {
                                 chatViewModel.deleteChatRooms()
                                 chatViewModel.deleteMessages()
+                                requestsViewModel.deleteRequests()
                             }
 
                             val intent = Intent(requireContext(), PreAuthActivity::class.java)

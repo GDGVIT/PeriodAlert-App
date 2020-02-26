@@ -44,6 +44,7 @@ class ChatsFragment : Fragment() {
         chatRoomRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = chatListAdapter
+
             addItemDecoration(
                 DividerItemDecoration(
                     requireContext(),

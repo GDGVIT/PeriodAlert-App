@@ -8,11 +8,14 @@ import android.os.Bundle
 import android.os.Looper
 import android.util.Log
 import com.dscvit.periodsapp.App
+import com.dscvit.periodsapp.model.requests.Request
+import com.dscvit.periodsapp.repository.AppRepository
+import kotlinx.coroutines.runBlocking
 import java.util.*
 import kotlin.math.*
 
 
-class LocationHelper {
+class LocationHelper(private val repo: AppRepository) {
 
     @SuppressWarnings("MissingPermission")
     fun getLocationAndNotify(fLat: Double, fLon: Double, receiverId: Int) {
@@ -39,6 +42,10 @@ class LocationHelper {
                                 id,
                                 receiverId
                             )
+
+                            runBlocking {
+                                repo.upsertRequest(Request(receiverId))
+                            }
                         }
                     }
                 }

@@ -6,11 +6,12 @@ import com.dscvit.periodsapp.utils.*
 import com.dscvit.periodsapp.utils.PreferenceHelper.set
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import org.koin.android.ext.android.inject
 import java.util.*
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
-    private val locationHelper = LocationHelper()
+    private val locationHelper by inject<LocationHelper>()
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         if (!remoteMessage.data["lon"].isNullOrEmpty()) {
