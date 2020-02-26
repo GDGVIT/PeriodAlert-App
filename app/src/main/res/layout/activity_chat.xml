@@ -6,6 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".ui.chat.ChatActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/chatToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        app:titleTextColor="#FFFFFF"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/messages_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/chatToolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/sendMessageLayout"/>
+
     <LinearLayout
         android:id="@+id/sendMessageLayout"
         android:layout_width="0dp"
@@ -24,14 +42,17 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginEnd="8dp"
+            android:textSize="16sp"
             android:inputType="text"
-            android:background="@drawable/border"
+            android:background="@drawable/message_chat_box_style"
             android:hint="Enter Message" />
 
         <Button
             android:id="@+id/sendMessageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
             android:text="Send"
             android:background="@drawable/button_style"
             android:gravity="center"
@@ -39,16 +60,6 @@
             android:textAllCaps="false"/>
 
     </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/messages_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:padding="8dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/sendMessageLayout"/>
 
     <ProgressBar
         android:id="@+id/messagesProgressBar"

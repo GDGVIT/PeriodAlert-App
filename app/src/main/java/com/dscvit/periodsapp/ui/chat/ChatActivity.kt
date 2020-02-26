@@ -41,7 +41,10 @@ class ChatActivity : AppCompatActivity() {
         sharedPref[Constants.PREF_CURR_CHAT_ROOM] = chatRoomId
         val senderId = sharedPref.getInt(Constants.PREF_USER_ID, 0)
         val receiverId = extras?.getInt(Constants.EXTRA_RECEIVER_ID)
+        val receiverName = extras?.getString(Constants.EXTRA_RECEIVER_NAME)
         val authKey = sharedPref.getString(Constants.PREF_AUTH_KEY, "")
+
+        chatToolbar.title = receiverName
 
         val linearLayoutManager = LinearLayoutManager(this)
         linearLayoutManager.stackFromEnd = true

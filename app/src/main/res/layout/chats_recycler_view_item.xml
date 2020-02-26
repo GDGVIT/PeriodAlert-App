@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    android:padding="8dp"
-    android:background="@drawable/chat_room_style">
+    android:padding="8dp">
 
     <TextView
         android:id="@+id/titleTextView"
@@ -13,13 +12,13 @@
         android:layout_height="wrap_content"
         android:textColor="#000000"
         android:textStyle="bold"
-        android:textSize="26sp"/>
+        android:textSize="22sp"/>
 
     <TextView
         android:id="@+id/bodyTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#000000"
-        android:textSize="22sp" />
+        android:textSize="18sp" />
 
 </LinearLayout>

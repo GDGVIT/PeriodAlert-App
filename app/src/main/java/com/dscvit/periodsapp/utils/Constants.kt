@@ -17,5 +17,6 @@ object Constants {
 
     const val EXTRA_RECEIVER_ID = "PREF_RECEIVER_ID"
     const val EXTRA_CHAT_ROOM_ID = "EXTRA_CHAT_ROOM_ID"
+    const val EXTRA_RECEIVER_NAME = "EXTRA_RECEIVER_NAME"
 
 }

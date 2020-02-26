@@ -28,6 +28,8 @@ object CustomLocationNotification {
 
         val intent = Intent(context, ChatActivity::class.java)
         intent.putExtra(Constants.EXTRA_RECEIVER_ID, receiverId)
+        val receiverName = "User ID: $receiverId"
+        intent.putExtra(Constants.EXTRA_RECEIVER_NAME, receiverName)
 
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
 

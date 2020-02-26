@@ -9,9 +9,6 @@ import android.view.ViewGroup
 
 import com.dscvit.periodsapp.R
 
-/**
- * A simple [Fragment] subclass.
- */
 class RequestsFragment : Fragment() {
 
     override fun onCreateView(
@@ -21,6 +18,4 @@ class RequestsFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_requests, container, false)
     }
-
-
 }

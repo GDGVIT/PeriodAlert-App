@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dscvit.periodsapp.R
 import com.dscvit.periodsapp.adapter.ChatListAdapter
@@ -43,11 +44,16 @@ class ChatsFragment : Fragment() {
         chatRoomRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = chatListAdapter
+            addItemDecoration(
+                DividerItemDecoration(
+                    requireContext(),
+                    DividerItemDecoration.VERTICAL
+                )
+            )
         }
 
         chatProgressBar.show()
         chatRoomRecyclerView.hide()
-        chatMsgTextView.hide()
 
         chatViewModel.viewChatRooms().observe(viewLifecycleOwner, Observer {
             when (it.status) {
@@ -59,7 +65,6 @@ class ChatsFragment : Fragment() {
                     chatListAdapter.updateChats(chatRooms)
                     chatProgressBar.hide()
                     chatRoomRecyclerView.show()
-                    chatMsgTextView.show()
                 }
                 Result.Status.ERROR -> {
                     Log.d("esh", it.message)
@@ -70,23 +75,26 @@ class ChatsFragment : Fragment() {
                     }
                     chatProgressBar.hide()
                     chatRoomRecyclerView.show()
-                    chatMsgTextView.show()
                 }
             }
         })
 
         chatRoomRecyclerView.addOnItemClickListener(object : OnItemClickListener {
             var receiverId = 0
+            var receiverName = ""
             override fun onItemClicked(position: Int, view: View) {
                 if (chatRooms[position].participant1Id == userId) {
                     receiverId = chatRooms[position].participant2Id
+                    receiverName = chatRooms[position].participant2Username
                 } else {
                     receiverId = chatRooms[position].participant1Id
+                    receiverName = chatRooms[position].participant1Username
                 }
 
                 val intent = Intent(requireContext(), ChatActivity::class.java)
                 intent.putExtra(Constants.EXTRA_CHAT_ROOM_ID, chatRooms[position].id)
                 intent.putExtra(Constants.EXTRA_RECEIVER_ID, receiverId)
+                intent.putExtra(Constants.EXTRA_RECEIVER_NAME, receiverName)
                 startActivity(intent)
             }
         })
