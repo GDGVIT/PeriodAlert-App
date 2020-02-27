@@ -33,9 +33,11 @@ class RequestListAdapter : RecyclerView.Adapter<RequestListAdapter.RequestViewHo
 
     class RequestViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val titleTextView = view.titleTextView
+        private val bodyTextView = view.bodyTextView
 
         fun bind(request: Request) {
-            titleTextView.text = "User Id: ${request.userId} has requested for help"
+            titleTextView.text = "${request.userName} has requested for help"
+            bodyTextView.text = "Date & Time: ${request.dateTimeString}"
         }
     }
 }

@@ -18,11 +18,13 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             val lon = remoteMessage.data["lon"]
             val lat = remoteMessage.data["lat"]
             val userId = remoteMessage.data["user_id"]
+            val userName = remoteMessage.data["user_name"]
 
             locationHelper.getLocationAndNotify(
                 lat!!.toDouble(),
                 lon!!.toDouble(),
-                userId!!.toInt()
+                userId!!.toInt(),
+                userName!!
             )
         }
 

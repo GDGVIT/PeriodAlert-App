@@ -2,6 +2,7 @@ package com.dscvit.periodsapp.ui.requests
 
 
 import android.content.Context
+import android.content.Intent
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -20,11 +21,9 @@ import com.dscvit.periodsapp.adapter.RequestListAdapter
 import com.dscvit.periodsapp.model.Result
 import com.dscvit.periodsapp.model.requests.Request
 import com.dscvit.periodsapp.repository.AppRepository
-import com.dscvit.periodsapp.utils.hide
-import com.dscvit.periodsapp.utils.shortToast
-import com.dscvit.periodsapp.utils.show
+import com.dscvit.periodsapp.ui.chat.ChatActivity
+import com.dscvit.periodsapp.utils.*
 import kotlinx.android.synthetic.main.fragment_requests.*
-import kotlinx.coroutines.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import kotlin.math.*
@@ -33,6 +32,7 @@ class RequestsFragment : Fragment() {
 
     private val repo by inject<AppRepository>()
     private val requestsViewModel by sharedViewModel<RequestsViewModel>()
+    private lateinit var requestsList: List<Request>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,14 +66,25 @@ class RequestsFragment : Fragment() {
             } else {
                 noRequestTextView.hide()
             }
+            requestsList = it
             requestListAdapter.updateRequests(it)
+        })
+
+        requestsRecyclerView.addOnItemClickListener(object: OnItemClickListener{
+            override fun onItemClicked(position: Int, view: View) {
+                val receiverId = requestsList[position].userId
+                val receiverName = requestsList[position].userName
+
+                val intent = Intent(requireContext(), ChatActivity::class.java)
+                intent.putExtra(Constants.EXTRA_RECEIVER_ID, receiverId)
+                intent.putExtra(Constants.EXTRA_RECEIVER_NAME, receiverName)
+                startActivity(intent)
+            }
         })
     }
 
     @SuppressWarnings("MissingPermission")
     private fun getLocationAndUpdateDb() {
-        requestsProgressBar.show()
-
         val locationManager =
             requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
@@ -93,7 +104,6 @@ class RequestsFragment : Fragment() {
             override fun onProviderEnabled(provider: String?) {}
 
             override fun onProviderDisabled(provider: String?) {
-                requestsProgressBar.hide()
                 requireContext().shortToast("Turn on Location")
             }
         }, Looper.getMainLooper())
@@ -117,11 +127,9 @@ class RequestsFragment : Fragment() {
                                 requestsViewModel.upsertRequest(request)
                             }
                         }
-                        requestsProgressBar.hide()
                     }
                 }
                 Result.Status.ERROR -> {
-                    requestsProgressBar.hide()
                     requireContext().shortToast("Error in getting alerts")
                     Log.d("esh", it.message)
                 }

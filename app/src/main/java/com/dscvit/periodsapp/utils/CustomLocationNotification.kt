@@ -20,7 +20,7 @@ object CustomLocationNotification {
     private const val GROUP_NOTIFICATION = "com.dscvit.periodsapp.GROUP_NOTIFICATION"
     private var mId = 0
 
-    fun notify(context: Context, text: String, id: Int, receiverId: Int) {
+    fun notify(context: Context, text: String, id: Int, receiverId: Int, userName: String) {
 
         mId = id
 
@@ -28,8 +28,7 @@ object CustomLocationNotification {
 
         val intent = Intent(context, ChatActivity::class.java)
         intent.putExtra(Constants.EXTRA_RECEIVER_ID, receiverId)
-        val receiverName = "User ID: $receiverId"
-        intent.putExtra(Constants.EXTRA_RECEIVER_NAME, receiverName)
+        intent.putExtra(Constants.EXTRA_RECEIVER_NAME, userName)
 
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
 
