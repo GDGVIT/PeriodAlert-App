@@ -16,4 +16,6 @@ class RequestsViewModel(private val repo: AppRepository): ViewModel() {
         repo.deleteRequests()
     }
 
+    fun getAlerts() = repo.getAlerts()
+
 }

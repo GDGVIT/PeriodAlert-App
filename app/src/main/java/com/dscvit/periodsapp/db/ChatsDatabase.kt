@@ -8,7 +8,7 @@ import com.dscvit.periodsapp.model.requests.Request
 
 @Database(
     entities = [Message::class, ChatRoom::class, Request::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class ChatsDatabase : RoomDatabase() {

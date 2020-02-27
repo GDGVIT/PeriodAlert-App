@@ -26,7 +26,7 @@ interface ChatsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMessage(message: Message)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun upsertRequest(request: Request)
 
     @Query("DELETE FROM chatrooms")

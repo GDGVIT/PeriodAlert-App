@@ -15,7 +15,7 @@ import java.util.*
 import kotlin.math.*
 
 
-class LocationHelper(private val repo: AppRepository) {
+class LocationHelper {
 
     @SuppressWarnings("MissingPermission")
     fun getLocationAndNotify(fLat: Double, fLon: Double, receiverId: Int) {
@@ -42,10 +42,6 @@ class LocationHelper(private val repo: AppRepository) {
                                 id,
                                 receiverId
                             )
-
-                            runBlocking {
-                                repo.upsertRequest(Request(receiverId))
-                            }
                         }
                     }
                 }

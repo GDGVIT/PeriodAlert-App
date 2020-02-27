@@ -7,6 +7,7 @@ import com.dscvit.periodsapp.model.login.LoginResponse
 import com.dscvit.periodsapp.model.logout.LogOutResponse
 import com.dscvit.periodsapp.model.registernotification.RegisterNotificationRequest
 import com.dscvit.periodsapp.model.registernotification.RegisterNotificationResponse
+import com.dscvit.periodsapp.model.requests.AlertsResponse
 import com.dscvit.periodsapp.model.sendalert.SendAlertRequest
 import com.dscvit.periodsapp.model.sendalert.SendAlertResponse
 import com.dscvit.periodsapp.model.signup.SignupRequest
@@ -41,6 +42,9 @@ interface ApiInterface {
 
     @GET("previous_messages/{chatRoomId}/")
     suspend fun getMessages(@Path("chatRoomId") chatRoomId: Int): Response<ChatMessagesResponse>
+
+    @GET("view_alert/")
+    suspend fun getAlerts(): Response<AlertsResponse>
 
 }
 

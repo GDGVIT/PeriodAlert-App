@@ -11,7 +11,7 @@ import java.util.*
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
-    private val locationHelper by inject<LocationHelper>()
+    private val locationHelper = LocationHelper()
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         if (!remoteMessage.data["lon"].isNullOrEmpty()) {

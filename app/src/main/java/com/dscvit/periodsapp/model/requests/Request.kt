@@ -6,8 +6,8 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "requests")
 data class Request(
-    val userId: Int
-) {
-    @PrimaryKey(autoGenerate = true)
-    var id: Int = 0
-}
+    @PrimaryKey val id: Int,
+    val userId: Int,
+    val userName: String,
+    val dateTimeString: String
+)
