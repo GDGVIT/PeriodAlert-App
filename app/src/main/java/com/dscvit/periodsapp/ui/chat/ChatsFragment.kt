@@ -37,6 +37,8 @@ class ChatsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        chatsToolbar.title = "Chats"
+
         val sharedPrefs = PreferenceHelper.customPrefs(requireContext(), Constants.PREF_NAME)
         val userId = sharedPrefs.getInt(Constants.PREF_USER_ID, 0)
 

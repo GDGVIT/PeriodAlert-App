@@ -6,25 +6,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.requests.RequestsFragment">
 
-    <TextView
-        android:id="@+id/requestsTextView"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/requestsToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Requests"
-        android:textStyle="bold"
-        android:textSize="30sp"
-        android:textColor="#FFFFFF"
-        android:background="@drawable/chat_text_style"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/chatRoomRecyclerView"/>
+        android:background="@color/colorPrimary"
+        app:titleTextColor="#FFFFFF"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/requestsRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/requestsTextView"
+        app:layout_constraintTop_toBottomOf="@id/requestsToolbar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

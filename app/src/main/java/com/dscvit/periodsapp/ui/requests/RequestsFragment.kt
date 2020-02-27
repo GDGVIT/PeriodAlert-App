@@ -26,12 +26,13 @@ import com.dscvit.periodsapp.utils.*
 import kotlinx.android.synthetic.main.fragment_requests.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
+import org.koin.android.viewmodel.ext.android.viewModel
 import kotlin.math.*
 
 class RequestsFragment : Fragment() {
 
     private val repo by inject<AppRepository>()
-    private val requestsViewModel by sharedViewModel<RequestsViewModel>()
+    private val requestsViewModel by viewModel<RequestsViewModel>()
     private lateinit var requestsList: List<Request>
 
     override fun onCreateView(
@@ -44,6 +45,8 @@ class RequestsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        requestsToolbar.title = "Requests"
 
         val requestListAdapter = RequestListAdapter()
         requestsRecyclerView.apply {
