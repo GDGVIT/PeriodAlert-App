@@ -14,7 +14,7 @@ interface ChatsDao {
     @Query("SELECT * FROM messages WHERE chatRoomId = :chatId")
     fun loadMessagesByChatRoomId(chatId: Int): LiveData<List<Message>>
 
-    @Query("SELECT * FROM requests")
+    @Query("SELECT * FROM requests ORDER BY id DESC")
     fun getAllRequests(): LiveData<List<Request>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)

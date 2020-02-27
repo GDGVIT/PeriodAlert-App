@@ -40,22 +40,17 @@ class ChatListAdapter(context: Context) : RecyclerView.Adapter<ChatListAdapter.C
 
     class ChatViewHolder(view: View, private val userId: Int) : RecyclerView.ViewHolder(view) {
         private val titleTextView = view.titleTextView
-        private val bodyTextView = view.bodyTextView
 
         fun bind(chat: ChatRoom) {
             val username: String
-            val id: Int
 
             if (userId == chat.participant1Id) {
-                id = chat.participant2Id
                 username = chat.participant2Username
             } else {
-                id = chat.participant1Id
                 username = chat.participant1Username
             }
 
             titleTextView.text = username
-            bodyTextView.text = id.toString()
         }
     }
 }

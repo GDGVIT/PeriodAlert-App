@@ -12,13 +12,6 @@
         android:layout_height="wrap_content"
         android:textColor="#000000"
         android:textStyle="bold"
-        android:textSize="22sp"/>
-
-    <TextView
-        android:id="@+id/bodyTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#000000"
-        android:textSize="18sp" />
+        android:textSize="18sp"/>
 
 </LinearLayout>
