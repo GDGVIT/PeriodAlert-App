@@ -18,4 +18,8 @@ class RequestsViewModel(private val repo: AppRepository): ViewModel() {
 
     fun getAlerts() = repo.getAlerts()
 
+    fun requestIsDone(id: Int) = viewModelScope.launch {
+        repo.requestIsDone(id)
+    }
+
 }

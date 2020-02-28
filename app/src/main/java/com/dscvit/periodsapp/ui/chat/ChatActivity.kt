@@ -96,7 +96,7 @@ class ChatActivity : AppCompatActivity() {
         ws = client.newWebSocket(request, wsListener)
 
         sendMessageButton.setOnClickListener {
-            if(!messageEditText.text.isBlank()) {
+            if (!messageEditText.text.isBlank()) {
                 val msg = messageEditText.text.toString().trim()
                 ws.send("{\"message\": \"$msg\", \"sender_id\": $senderId, \"receiver_id\": $receiverId}")
                 messageEditText.setText("")
@@ -112,7 +112,7 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun scrollDown() {
-        messages_recycler_view.addOnLayoutChangeListener{ view, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
+        messages_recycler_view.addOnLayoutChangeListener { view, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
             if (bottom < oldBottom) {
                 messages_recycler_view.postDelayed(
                     { messages_recycler_view.smoothScrollToPosition(messageListAdapter.itemCount) },

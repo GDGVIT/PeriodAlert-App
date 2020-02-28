@@ -57,6 +57,8 @@ class AppRepository(private val apiClient: ApiClient, private val chatsDao: Chat
 
     suspend fun upsertRequest(request: Request) = chatsDao.upsertRequest(request)
 
+    suspend fun requestIsDone(id: Int) = chatsDao.requestIsDone(id)
+
     suspend fun deleteChatRooms() = chatsDao.deleteChatRooms()
 
     suspend fun deleteMessages() = chatsDao.deleteMessages()

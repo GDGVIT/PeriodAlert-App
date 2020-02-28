@@ -14,7 +14,7 @@ interface ChatsDao {
     @Query("SELECT * FROM messages WHERE chatRoomId = :chatId")
     fun loadMessagesByChatRoomId(chatId: Int): LiveData<List<Message>>
 
-    @Query("SELECT * FROM requests ORDER BY id DESC")
+    @Query("SELECT * FROM requests WHERE isDone=0 ORDER BY id DESC")
     fun getAllRequests(): LiveData<List<Request>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
@@ -28,6 +28,9 @@ interface ChatsDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun upsertRequest(request: Request)
+
+    @Query("UPDATE requests SET isDone=1 WHERE id= :id")
+    suspend fun requestIsDone(id: Int)
 
     @Query("DELETE FROM chatrooms")
     suspend fun deleteChatRooms()

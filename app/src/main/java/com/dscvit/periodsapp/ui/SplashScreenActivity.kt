@@ -38,7 +38,6 @@ class SplashScreenActivity : AppCompatActivity() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkPermission(permissions)) {
-                applicationContext.shortToast("Permissions Granted")
                 getLocation(this)
             } else {
                 requestPermissions(permissions, PERMISSION_REQUEST)

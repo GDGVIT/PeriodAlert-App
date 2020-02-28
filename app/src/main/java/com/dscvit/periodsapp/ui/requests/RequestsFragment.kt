@@ -1,19 +1,14 @@
 package com.dscvit.periodsapp.ui.requests
 
 
-import android.content.Context
-import android.content.Intent
-import android.location.Location
-import android.location.LocationListener
-import android.location.LocationManager
 import android.os.Bundle
-import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dscvit.periodsapp.R
@@ -21,11 +16,11 @@ import com.dscvit.periodsapp.adapter.RequestListAdapter
 import com.dscvit.periodsapp.model.Result
 import com.dscvit.periodsapp.model.requests.Request
 import com.dscvit.periodsapp.repository.AppRepository
-import com.dscvit.periodsapp.ui.chat.ChatActivity
 import com.dscvit.periodsapp.utils.*
+import com.dscvit.periodsapp.websocket.ChatWsListener
 import kotlinx.android.synthetic.main.fragment_requests.*
+import okhttp3.OkHttpClient
 import org.koin.android.ext.android.inject
-import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 import kotlin.math.*
 
@@ -47,6 +42,8 @@ class RequestsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val sharedPrefs = PreferenceHelper.customPrefs(requireContext(), Constants.PREF_NAME)
+        val authKey = sharedPrefs.getString(Constants.PREF_AUTH_KEY, "")
+        val senderId = sharedPrefs.getInt(Constants.PREF_USER_ID, 0)
 
         requestsToolbar.title = "Requests"
 
@@ -83,15 +80,23 @@ class RequestsFragment : Fragment() {
             requestListAdapter.updateRequests(it)
         })
 
-        requestsRecyclerView.addOnItemClickListener(object: OnItemClickListener{
+        val client = OkHttpClient()
+        val wsListener: ChatWsListener by inject()
+
+        requestsRecyclerView.addOnItemClickListener(object : OnItemClickListener {
             override fun onItemClicked(position: Int, view: View) {
                 val receiverId = requestsList[position].userId
-                val receiverName = requestsList[position].userName
 
-                val intent = Intent(requireContext(), ChatActivity::class.java)
-                intent.putExtra(Constants.EXTRA_RECEIVER_ID, receiverId)
-                intent.putExtra(Constants.EXTRA_RECEIVER_NAME, receiverName)
-                startActivity(intent)
+                val baseUrl = "${Constants.WS_BASE_URL}$authKey/$receiverId/1/"
+                val request = okhttp3.Request.Builder().url(baseUrl).build()
+                val ws = client.newWebSocket(request, wsListener)
+                val msg = "Hi I am willing to help"
+                ws.send("{\"message\": \"$msg\", \"sender_id\": $senderId, \"receiver_id\": $receiverId}")
+                ws.close(1000, "Close Normal")
+
+                requestsViewModel.requestIsDone(requestsList[position].id)
+
+                findNavController().navigate(R.id.chatsFragment)
             }
         })
     }
@@ -137,7 +142,8 @@ class RequestsFragment : Fragment() {
                                     alert.id,
                                     alert.userId,
                                     alert.userUsername,
-                                    alert.dateTimeCreation
+                                    alert.dateTimeCreation,
+                                    0
                                 )
                                 requestsViewModel.upsertRequest(request)
                             }

@@ -9,5 +9,6 @@ data class Request(
     @PrimaryKey val id: Int,
     val userId: Int,
     val userName: String,
-    val dateTimeString: String
+    val dateTimeString: String,
+    val isDone: Int
 )
