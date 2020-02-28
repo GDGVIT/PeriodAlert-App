@@ -96,9 +96,13 @@ class ChatActivity : AppCompatActivity() {
         ws = client.newWebSocket(request, wsListener)
 
         sendMessageButton.setOnClickListener {
-            val msg = messageEditText.text.toString()
-            ws.send("{\"message\": \"$msg\", \"sender_id\": $senderId, \"receiver_id\": $receiverId}")
-            messageEditText.setText("")
+            if(!messageEditText.text.isBlank()) {
+                val msg = messageEditText.text.toString().trim()
+                ws.send("{\"message\": \"$msg\", \"sender_id\": $senderId, \"receiver_id\": $receiverId}")
+                messageEditText.setText("")
+            } else {
+                shortToast("Message can't be empty")
+            }
         }
     }
 

@@ -9,11 +9,12 @@
 
     <TextView
         android:id="@+id/myMsgTextView"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
         android:background="@drawable/my_chat_message_style"/>
