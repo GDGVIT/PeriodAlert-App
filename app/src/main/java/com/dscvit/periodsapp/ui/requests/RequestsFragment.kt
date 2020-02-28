@@ -24,10 +24,6 @@ import com.dscvit.periodsapp.repository.AppRepository
 import com.dscvit.periodsapp.ui.chat.ChatActivity
 import com.dscvit.periodsapp.utils.*
 import kotlinx.android.synthetic.main.fragment_requests.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -36,6 +32,7 @@ import kotlin.math.*
 class RequestsFragment : Fragment() {
 
     private val repo by inject<AppRepository>()
+    private val requestsViewModel by viewModel<RequestsViewModel>()
     private lateinit var requestsList: List<Request>
 
     override fun onCreateView(
@@ -48,6 +45,8 @@ class RequestsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val sharedPrefs = PreferenceHelper.customPrefs(requireContext(), Constants.PREF_NAME)
 
         requestsToolbar.title = "Requests"
 
@@ -64,7 +63,15 @@ class RequestsFragment : Fragment() {
             )
         }
 
-        getLocationAndUpdateDb()
+        //getLocationAndUpdateDb()
+
+        val lat = sharedPrefs.getFloat(Constants.PREF_CURR_LAT, 0f).toDouble()
+        val lon = sharedPrefs.getFloat(Constants.PREF_CURR_LON, 0f).toDouble()
+
+        Log.d("esh", lat.toString())
+        Log.d("esh", lon.toString())
+
+        makeNetworkCallUpdateDb(lat, lon)
 
         repo.getAllRequests().observe(viewLifecycleOwner, Observer {
             if (it.isEmpty()) {
@@ -76,7 +83,7 @@ class RequestsFragment : Fragment() {
             requestListAdapter.updateRequests(it)
         })
 
-        requestsRecyclerView.addOnItemClickListener(object : OnItemClickListener {
+        requestsRecyclerView.addOnItemClickListener(object: OnItemClickListener{
             override fun onItemClicked(position: Int, view: View) {
                 val receiverId = requestsList[position].userId
                 val receiverName = requestsList[position].userName
@@ -89,6 +96,7 @@ class RequestsFragment : Fragment() {
         })
     }
 
+    /*
     @SuppressWarnings("MissingPermission")
     private fun getLocationAndUpdateDb() {
         val locationManager =
@@ -114,9 +122,10 @@ class RequestsFragment : Fragment() {
             }
         }, Looper.getMainLooper())
     }
+     */
 
     private fun makeNetworkCallUpdateDb(lat: Double, lon: Double) {
-        repo.getAlerts().observe(viewLifecycleOwner, Observer {
+        requestsViewModel.getAlerts().observe(viewLifecycleOwner, Observer {
             when (it.status) {
                 Result.Status.LOADING -> {
                 }
@@ -130,11 +139,7 @@ class RequestsFragment : Fragment() {
                                     alert.userUsername,
                                     alert.dateTimeCreation
                                 )
-                                runBlocking {
-                                    withContext(Dispatchers.IO) {
-                                        repo.upsertRequest(request)
-                                    }
-                                }
+                                requestsViewModel.upsertRequest(request)
                             }
                         }
                     }

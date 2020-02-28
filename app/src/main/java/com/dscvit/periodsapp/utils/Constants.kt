@@ -14,6 +14,8 @@ object Constants {
     const val PREF_TOKEN_IS_UPDATED = "PREF_TOKEN_IS_UPDATED"
     const val PREF_USER_ID = "PREF_USER_ID"
     const val PREF_CURR_CHAT_ROOM = "PREF_CURR_CHAT_ROOM"
+    const val PREF_CURR_LAT = "PREF_CURR_LAT"
+    const val PREF_CURR_LON = "PREF_CURR_LON"
 
     const val EXTRA_RECEIVER_ID = "PREF_RECEIVER_ID"
     const val EXTRA_CHAT_ROOM_ID = "EXTRA_CHAT_ROOM_ID"
