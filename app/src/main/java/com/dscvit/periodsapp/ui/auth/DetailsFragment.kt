@@ -102,8 +102,6 @@ class DetailsFragment : Fragment() {
                                     Result.Status.ERROR -> {
                                         if (it.message == "400 Bad Request") {
                                             requireContext().shortToast("User Exist, Try Signing In")
-                                        } else if (it.message == "500 Internal Server Error") {
-                                            requireContext().shortToast("500 Error")
                                         } else {
                                             requireContext().shortToast("No Internet")
                                         }
