@@ -1,6 +1,7 @@
 package com.dscvit.periodsapp.adapter
 
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,11 +42,20 @@ class RequestListAdapter : RecyclerView.Adapter<RequestListAdapter.RequestViewHo
         fun bind(request: Request) {
             titleTextView.text = "${request.userName} has requested for help"
 
-            val selTime = request.dateTimeString.substring(12, 13).toInt()
-            val currTime = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+            val selTime = request.dateTimeString.substring(11, 13).toInt()
+            val selDate = request.dateTimeString.substring(8, 10).toInt()
+            val timeFormat = Calendar.getInstance()
+            timeFormat.timeZone = TimeZone.getTimeZone("UTC")
+            val currTime = timeFormat.get(Calendar.HOUR_OF_DAY)
+            val currDate = timeFormat.get(Calendar.DATE)
             val timeDiff = currTime - selTime
 
-            if( timeDiff < 8) {
+            var isSameDay = false
+
+            if (currDate == selDate) {
+                isSameDay = true
+            }
+            if (timeDiff < 3 && isSameDay) {
                 bodyTextView.setTextColor(Color.parseColor("#228b22"))
                 bodyTextView.text = "The request is active"
             } else {
