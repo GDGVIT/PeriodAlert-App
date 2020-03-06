@@ -10,7 +10,9 @@ import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import androidx.navigation.NavDeepLinkBuilder
 import com.dscvit.periodsapp.R
+import com.dscvit.periodsapp.ui.PostAuthActivity
 import com.dscvit.periodsapp.ui.chat.ChatActivity
 
 object CustomLocationNotification {
@@ -26,9 +28,16 @@ object CustomLocationNotification {
 
         val title = "$userName has requested for help"
 
-        val intent = Intent(context, ChatActivity::class.java)
-        intent.putExtra(Constants.EXTRA_RECEIVER_ID, receiverId)
-        intent.putExtra(Constants.EXTRA_RECEIVER_NAME, userName)
+//        val intent = Intent(context, ChatActivity::class.java)
+//        intent.putExtra(Constants.EXTRA_RECEIVER_ID, receiverId)
+//        intent.putExtra(Constants.EXTRA_RECEIVER_NAME, userName)
+
+        val pendingIntent = NavDeepLinkBuilder(context)
+            .setComponentName(PostAuthActivity::class.java)
+            .setGraph(R.navigation.post_auth_navigation)
+            .setDestination(R.id.requestsFragment)
+            .createPendingIntent()
+
 
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
 
@@ -43,14 +52,16 @@ object CustomLocationNotification {
 
             .setGroup(GROUP_NOTIFICATION)
 
-            .setContentIntent(
-                PendingIntent.getActivity(
-                    context,
-                    0,
-                    intent,
-                    PendingIntent.FLAG_UPDATE_CURRENT
-                )
-            )
+            .setContentIntent(pendingIntent)
+
+//            .setContentIntent(
+//                PendingIntent.getActivity(
+//                    context,
+//                    0,
+//                    intent,
+//                    PendingIntent.FLAG_UPDATE_CURRENT
+//                )
+//            )
 
             .setStyle(
                 NotificationCompat.BigTextStyle()
