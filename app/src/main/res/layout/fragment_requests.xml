@@ -23,11 +23,11 @@
         android:textColor="#000000"
         app:layout_constraintTop_toBottomOf="@id/requestsToolbar"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:background="@drawable/other_chat_message_style"
-        android:layout_marginLeft="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:background="#E7E7E7"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:padding="16dp"
+        android:padding="12dp"
         android:textSize="16sp"/>
 
     <androidx.recyclerview.widget.RecyclerView
