@@ -8,10 +8,13 @@
 
     <TextView
         android:id="@+id/titleTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:layout_constraintWidth_default="wrap"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/arrowImg"
+        app:layout_constraintHorizontal_bias="0"
         android:textColor="#000000"
         android:textStyle="bold"
         android:textSize="18sp"/>
@@ -26,6 +29,7 @@
         android:textSize="16sp" />
 
     <ImageView
+        android:id="@+id/arrowImg"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:foregroundGravity="right"
