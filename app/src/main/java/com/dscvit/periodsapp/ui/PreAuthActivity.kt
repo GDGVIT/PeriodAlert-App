@@ -18,8 +18,6 @@ class PreAuthActivity : AppCompatActivity() {
         setContentView(R.layout.activity_pre_auth)
 
         sharedPreferences = PreferenceHelper.customPrefs(this, Constants.PREF_NAME)
-        val lat = sharedPreferences.getFloat(Constants.PREF_CURR_LAT, 0f)
-        val lon = sharedPreferences.getFloat(Constants.PREF_CURR_LON, 0f)
     }
 
     override fun onStart() {

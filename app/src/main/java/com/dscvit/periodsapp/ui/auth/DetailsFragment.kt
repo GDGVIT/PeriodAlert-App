@@ -97,6 +97,7 @@ class DetailsFragment : Fragment() {
                                                     PostAuthActivity::class.java
                                                 )
                                             startActivity(intent)
+                                            requireActivity().finish()
                                         }
                                     }
                                     Result.Status.ERROR -> {

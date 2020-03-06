@@ -77,6 +77,7 @@ class SignInFragment : Fragment() {
                                     val intent =
                                         Intent(requireContext(), PostAuthActivity::class.java)
                                     startActivity(intent)
+                                    requireActivity().finish()
                                 }
                             }
                             Result.Status.ERROR -> {

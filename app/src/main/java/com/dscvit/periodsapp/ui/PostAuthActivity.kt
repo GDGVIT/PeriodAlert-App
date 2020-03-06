@@ -21,6 +21,7 @@ import com.dscvit.periodsapp.utils.shortToast
 import java.util.*
 
 class PostAuthActivity : AppCompatActivity() {
+
     private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,8 +83,6 @@ class PostAuthActivity : AppCompatActivity() {
                 }
             })
         }
-
-        onBackPressedDispatcher.addCallback(this) {}
     }
 
     private fun setUpNavigation() {

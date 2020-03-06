@@ -82,6 +82,7 @@ class HomeFragment : Fragment() {
 
                             val intent = Intent(requireContext(), PreAuthActivity::class.java)
                             startActivity(intent)
+                            requireActivity().finish()
                         }
                     }
                     Result.Status.ERROR -> {
