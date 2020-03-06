@@ -42,4 +42,8 @@ class ApiClient(private val preAuthApi: ApiInterface, private val postAuthApi: A
         postAuthApi.getMessages(chatRoomId)
     }
 
+    suspend fun getAlerts() = getResult {
+        postAuthApi.getAlerts()
+    }
+
 }

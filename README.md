@@ -14,7 +14,7 @@
 - [x]  User signup / login 
 - [x]  Sending location to backend from the device when help button is pressed
 - [x]  Checking distance between each phone when notification is recieved from backend and showing notification to user if ditance is less than the threshold.
-- [ ]  Chat mechanism
+- [x]  Chat mechanism
 - [ ]  User rating system
 
 <br>

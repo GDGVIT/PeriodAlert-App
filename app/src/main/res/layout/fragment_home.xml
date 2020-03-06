@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/helpButton"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         android:src="@drawable/ic_help_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

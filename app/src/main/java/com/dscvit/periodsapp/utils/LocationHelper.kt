@@ -8,6 +8,9 @@ import android.os.Bundle
 import android.os.Looper
 import android.util.Log
 import com.dscvit.periodsapp.App
+import com.dscvit.periodsapp.model.requests.Request
+import com.dscvit.periodsapp.repository.AppRepository
+import kotlinx.coroutines.runBlocking
 import java.util.*
 import kotlin.math.*
 
@@ -15,12 +18,12 @@ import kotlin.math.*
 class LocationHelper {
 
     @SuppressWarnings("MissingPermission")
-    fun getLocationAndNotify(fLat: Double, fLon: Double, receiverId: Int) {
+    fun getLocationAndNotify(fLat: Double, fLon: Double, receiverId: Int, userName: String) {
         val locationManager =
             App.context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
         locationManager.requestSingleUpdate(
-            LocationManager.GPS_PROVIDER,
+            LocationManager.NETWORK_PROVIDER,
             object : LocationListener {
                 override fun onLocationChanged(location: Location?) {
                     if (location != null) {
@@ -37,7 +40,8 @@ class LocationHelper {
                                 App.context,
                                 "Approx Distance: $distance",
                                 id,
-                                receiverId
+                                receiverId,
+                                userName
                             )
                         }
                     }

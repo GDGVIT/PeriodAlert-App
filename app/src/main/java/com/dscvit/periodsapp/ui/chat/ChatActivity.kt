@@ -1,6 +1,7 @@
 package com.dscvit.periodsapp.ui.chat
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -40,12 +41,14 @@ class ChatActivity : AppCompatActivity() {
         sharedPref[Constants.PREF_CURR_CHAT_ROOM] = chatRoomId
         val senderId = sharedPref.getInt(Constants.PREF_USER_ID, 0)
         val receiverId = extras?.getInt(Constants.EXTRA_RECEIVER_ID)
+        val receiverName = extras?.getString(Constants.EXTRA_RECEIVER_NAME)
         val authKey = sharedPref.getString(Constants.PREF_AUTH_KEY, "")
 
+        chatToolbar.title = receiverName
 
         val linearLayoutManager = LinearLayoutManager(this)
         linearLayoutManager.stackFromEnd = true
-        messageListAdapter = MessageListAdapter()
+        messageListAdapter = MessageListAdapter(this)
         messages_recycler_view.apply {
             adapter = messageListAdapter
             layoutManager = linearLayoutManager
@@ -64,6 +67,8 @@ class ChatActivity : AppCompatActivity() {
                 Result.Status.SUCCESS -> {
                     messagesList = it.data!!
 
+                    Log.d("esh", "ChatRoomID: $chatRoomId")
+
                     messageListAdapter.updateMessages(messagesList)
                     messagesProgressBar.hide()
                     messages_recycler_view.show()
@@ -76,6 +81,8 @@ class ChatActivity : AppCompatActivity() {
                     messagesProgressBar.hide()
                     messages_recycler_view.show()
                     sendMessageLayout.show()
+                    messages_recycler_view.smoothScrollToPosition(messageListAdapter.itemCount)
+                    messages_recycler_view.smoothScrollBy(0, 200)
                 }
             }
         })
@@ -89,9 +96,13 @@ class ChatActivity : AppCompatActivity() {
         ws = client.newWebSocket(request, wsListener)
 
         sendMessageButton.setOnClickListener {
-            val msg = messageEditText.text.toString()
-            ws.send("{\"message\": \"$msg\", \"sender_id\": $senderId, \"receiver_id\": $receiverId}")
-            messageEditText.setText("")
+            if (!messageEditText.text.isBlank()) {
+                val msg = messageEditText.text.toString().trim()
+                ws.send("{\"message\": \"$msg\", \"sender_id\": $senderId, \"receiver_id\": $receiverId}")
+                messageEditText.setText("")
+            } else {
+                shortToast("Message can't be empty")
+            }
         }
     }
 
@@ -101,7 +112,7 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun scrollDown() {
-        messages_recycler_view.addOnLayoutChangeListener{ view, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
+        messages_recycler_view.addOnLayoutChangeListener { view, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
             if (bottom < oldBottom) {
                 messages_recycler_view.postDelayed(
                     { messages_recycler_view.smoothScrollToPosition(messageListAdapter.itemCount) },

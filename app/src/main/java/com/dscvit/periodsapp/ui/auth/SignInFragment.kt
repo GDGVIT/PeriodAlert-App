@@ -77,6 +77,7 @@ class SignInFragment : Fragment() {
                                     val intent =
                                         Intent(requireContext(), PostAuthActivity::class.java)
                                     startActivity(intent)
+                                    requireActivity().finish()
                                 }
                             }
                             Result.Status.ERROR -> {
@@ -88,8 +89,6 @@ class SignInFragment : Fragment() {
 
                                 if (it.message == "400 Bad Request") {
                                     requireContext().shortToast("Email or Password is wrong")
-                                } else if (it.message == "500 Internal Server Error") {
-                                    requireContext().shortToast("500 Error")
                                 } else {
                                     requireContext().shortToast("No Internet")
                                 }

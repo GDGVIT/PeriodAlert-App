@@ -6,6 +6,7 @@ import com.dscvit.periodsapp.utils.*
 import com.dscvit.periodsapp.utils.PreferenceHelper.set
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import org.koin.android.ext.android.inject
 import java.util.*
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
@@ -17,11 +18,13 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             val lon = remoteMessage.data["lon"]
             val lat = remoteMessage.data["lat"]
             val userId = remoteMessage.data["user_id"]
+            val userName = remoteMessage.data["user_name"]
 
             locationHelper.getLocationAndNotify(
                 lat!!.toDouble(),
                 lon!!.toDouble(),
-                userId!!.toInt()
+                userId!!.toInt(),
+                userName!!
             )
         }
 
