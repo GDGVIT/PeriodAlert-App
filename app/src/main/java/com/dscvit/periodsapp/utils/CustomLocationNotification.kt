@@ -24,7 +24,7 @@ object CustomLocationNotification {
 
         mId = id
 
-        val title = "Request For Help"
+        val title = "$userName has requested for help"
 
         val intent = Intent(context, ChatActivity::class.java)
         intent.putExtra(Constants.EXTRA_RECEIVER_ID, receiverId)

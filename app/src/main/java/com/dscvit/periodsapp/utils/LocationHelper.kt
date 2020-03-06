@@ -11,6 +11,7 @@ import com.dscvit.periodsapp.App
 import com.dscvit.periodsapp.model.requests.Request
 import com.dscvit.periodsapp.repository.AppRepository
 import kotlinx.coroutines.runBlocking
+import java.text.DecimalFormat
 import java.util.*
 import kotlin.math.*
 
@@ -33,12 +34,14 @@ class LocationHelper {
                         Log.d("esh", "LOCAL: lat:$lat, lon:$lon")
 
                         val distance = calculateDistance(fLat, fLon, lat, lon)
+                        val df = DecimalFormat("#.##")
+                        val distanceToShow = df.format(distance)
 
                         if (distance <= 5) {
                             val id = (Date().time / 1000L % Int.MAX_VALUE).toInt()
                             CustomLocationNotification.notify(
                                 App.context,
-                                "Approx Distance: $distance",
+                                "Approx Distance: $distanceToShow KM",
                                 id,
                                 receiverId,
                                 userName
