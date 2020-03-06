@@ -83,6 +83,7 @@ class PostAuthActivity : AppCompatActivity() {
                 }
             })
         }
+        onBackPressedDispatcher.addCallback{}
     }
 
     private fun setUpNavigation() {

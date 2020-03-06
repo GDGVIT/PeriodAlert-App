@@ -110,7 +110,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
             override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
 
-            override fun onProviderEnabled(provider: String?) {}
+            override fun onProviderEnabled(provider: String?) { getLocation(context) }
 
             override fun onProviderDisabled(provider: String?) {
                 shortToast("Turn on Location")
