@@ -44,7 +44,7 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Periods tracker app \nwelcomes you !"
+        android:text="P-Alert App \nwelcomes you !"
         app:layout_constraintTop_toBottomOf="@+id/textView"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginTop="10dp"

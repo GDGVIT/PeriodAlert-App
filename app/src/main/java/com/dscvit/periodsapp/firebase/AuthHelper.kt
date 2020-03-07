@@ -85,6 +85,7 @@ class AuthHelper(val context: Context, private val view: View, private val activ
                 if (task.isSuccessful) {
                     val navController = Navigation.findNavController(activity, R.id.pre_auth_nav_host)
                     navController.navigate(R.id.detailsFragment)
+                    context.shortToast("OTP Verified")
                 } else {
                     context.longToast("Wrong OTP")
                     view.verifyButton.show()
