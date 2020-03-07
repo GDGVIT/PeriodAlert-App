@@ -2,6 +2,7 @@ package com.dscvit.periodsapp.ui.requests
 
 
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -25,6 +26,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
 import kotlin.math.*
 
+
 class RequestsFragment : Fragment() {
 
     private val repo by inject<AppRepository>()
@@ -41,6 +43,8 @@ class RequestsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        requestsProgressBar.hide()
 
         val sharedPrefs = PreferenceHelper.customPrefs(requireContext(), Constants.PREF_NAME)
         val authKey = sharedPrefs.getString(Constants.PREF_AUTH_KEY, "")
@@ -112,7 +116,14 @@ class RequestsFragment : Fragment() {
 
                     requestsViewModel.requestIsDone(requestsList[position].id)
 
-                    findNavController().navigate(R.id.chatsFragment)
+                    requestsProgressBar.show()
+                    requestsRecyclerView.hide()
+
+                    Handler().postDelayed({
+                        requestsProgressBar.hide()
+                        findNavController().navigate(R.id.chatsFragment)
+                    }, 1500)
+
                 } else {
                     requireContext().shortToast("Request has expired")
                 }

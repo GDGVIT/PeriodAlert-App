@@ -32,11 +32,12 @@ class ChatWsListener(context: Context, private val repo: AppRepository): WebSock
         val chatRoomId = sharedPrefs.getInt(Constants.PREF_CURR_CHAT_ROOM, 0)
 
         val messageObject: JsonObject = Gson().fromJson(text, JsonObject::class.java)
+        val id = messageObject.get("id").asInt
         val body = messageObject.get("message").asString
         val receiverId = messageObject.get("receiver_id").asInt
         val senderId = messageObject.get("sender_id").asInt
 
-        val message = Message(body, chatRoomId, "", receiverId, senderId)
+        val message = Message(id, body, chatRoomId, "", receiverId, senderId)
 
         runBlocking {
             withContext(Dispatchers.IO) {
