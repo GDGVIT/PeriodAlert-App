@@ -7,6 +7,9 @@ import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "messages")
 data class Message(
+    @PrimaryKey(autoGenerate = false)
+    @SerializedName("id")
+    val id: Int,
     @SerializedName("body")
     val body: String,
     @SerializedName("chat_room_id")
@@ -17,7 +20,4 @@ data class Message(
     val receiverId: Int,
     @SerializedName("sender_id")
     val senderId: Int
-) {
-    @PrimaryKey(autoGenerate = true)
-    var id: Int = 0
-}
+)

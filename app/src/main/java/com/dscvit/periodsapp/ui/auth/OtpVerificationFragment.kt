@@ -28,10 +28,7 @@ class OtpVerificationFragment : Fragment() {
 
         val sharedPrefs = PreferenceHelper.customPrefs(requireContext(), Constants.PREF_NAME)
 
-        otpMessageTextView.text = "Please enter the OTP we just sent to, \n${sharedPrefs.getString(
-            Constants.PREF_PHONE_NUMBER,
-            ""
-        )}"
+        otpMessageTextView.text = "Please enter the OTP"
 
         requireActivity().onBackPressedDispatcher.addCallback(this) {}
 

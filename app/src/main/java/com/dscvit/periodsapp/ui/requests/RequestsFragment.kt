@@ -2,6 +2,7 @@ package com.dscvit.periodsapp.ui.requests
 
 
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -22,7 +23,9 @@ import kotlinx.android.synthetic.main.fragment_requests.*
 import okhttp3.OkHttpClient
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.util.*
 import kotlin.math.*
+
 
 class RequestsFragment : Fragment() {
 
@@ -40,6 +43,8 @@ class RequestsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        requestsProgressBar.hide()
 
         val sharedPrefs = PreferenceHelper.customPrefs(requireContext(), Constants.PREF_NAME)
         val authKey = sharedPrefs.getString(Constants.PREF_AUTH_KEY, "")
@@ -87,16 +92,41 @@ class RequestsFragment : Fragment() {
             override fun onItemClicked(position: Int, view: View) {
                 val receiverId = requestsList[position].userId
 
-                val baseUrl = "${Constants.WS_BASE_URL}$authKey/$receiverId/1/"
-                val request = okhttp3.Request.Builder().url(baseUrl).build()
-                val ws = client.newWebSocket(request, wsListener)
-                val msg = "Hi I am willing to help"
-                ws.send("{\"message\": \"$msg\", \"sender_id\": $senderId, \"receiver_id\": $receiverId}")
-                ws.close(1000, "Close Normal")
+                val selTime = requestsList[position].dateTimeString.substring(11, 13).toInt()
+                val selDate = requestsList[position].dateTimeString.substring(8, 10).toInt()
+                val timeFormat = Calendar.getInstance()
+                timeFormat.timeZone = TimeZone.getTimeZone("UTC")
+                val currTime = timeFormat.get(Calendar.HOUR_OF_DAY)
+                val currDate = timeFormat.get(Calendar.DATE)
+                val timeDiff = currTime - selTime
 
-                requestsViewModel.requestIsDone(requestsList[position].id)
+                var isSameDay = false
 
-                findNavController().navigate(R.id.chatsFragment)
+                if (currDate == selDate) {
+                    isSameDay = true
+                }
+
+                if (timeDiff < 3 && isSameDay) {
+                    val baseUrl = "${Constants.WS_BASE_URL}$authKey/$receiverId/1/"
+                    val request = okhttp3.Request.Builder().url(baseUrl).build()
+                    val ws = client.newWebSocket(request, wsListener)
+                    val msg = "Hi I am willing to help"
+                    ws.send("{\"message\": \"$msg\", \"sender_id\": $senderId, \"receiver_id\": $receiverId}")
+                    ws.close(1000, "Close Normal")
+
+                    requestsViewModel.requestIsDone(requestsList[position].id)
+
+                    requestsProgressBar.show()
+                    requestsRecyclerView.hide()
+
+                    Handler().postDelayed({
+                        requestsProgressBar.hide()
+                        findNavController().navigate(R.id.chatsFragment)
+                    }, 1500)
+
+                } else {
+                    requireContext().shortToast("Request has expired")
+                }
             }
         })
     }

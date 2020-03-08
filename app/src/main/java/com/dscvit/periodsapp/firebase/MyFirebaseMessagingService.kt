@@ -15,6 +15,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         if (!remoteMessage.data["lon"].isNullOrEmpty()) {
+
+            Log.d("esh", "Other location received")
+
             val lon = remoteMessage.data["lon"]
             val lat = remoteMessage.data["lat"]
             val userId = remoteMessage.data["user_id"]
