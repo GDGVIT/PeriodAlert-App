@@ -4,118 +4,111 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
     android:focusableInTouchMode="true"
+    android:orientation="horizontal"
     tools:context=".ui.auth.SignUpFragment">
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:src="@drawable/ic_darkdrop"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="45dp"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:src="@drawable/ic_lightdrop"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="82dp"
-        android:layout_marginEnd="20dp"/>
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hello There,"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="30dp"
-        android:layout_marginStart="30dp"
-        android:textStyle="bold"
+        android:layout_marginStart="24dp"
+        android:textColor="#000000"
         android:textSize="30sp"
-        android:textColor="#000000" />
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Athena - \nA Period Helper Application!"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="30dp"
+        android:textColor="#000000"
         android:textSize="20sp"
-        android:textColor="#000000" />
+        app:layout_constraintBottom_toTopOf="@+id/textView3"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Enter your Phone Number"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="35dp"
-        android:layout_marginStart="30dp"
-        android:textStyle="bold"
+        android:textColor="#000000"
         android:textSize="20sp"
-        android:textColor="#000000" />
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/phoneNumberEditText"
+        app:layout_constraintStart_toStartOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <EditText
         android:id="@+id/phoneNumberEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/border"
         android:ems="10"
-        android:maxLength="10"
-        android:inputType="phone"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:textAlignment="center"
         android:hint="Phone Number"
-        android:layout_marginEnd="30dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginStart="30dp"
-        android:background="@drawable/border"/>
+        android:inputType="phone"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:maxLength="10"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/sendOtpButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <Button
         android:id="@+id/sendOtpButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/phoneNumberEditText"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/signInInsteadButton"
+        android:background="@drawable/button_style"
+        android:text="Get OTP"
         android:textAlignment="center"
-        android:layout_marginEnd="30dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginStart="30dp"
         android:textAllCaps="false"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
-        android:text="Get OTP"
-        android:background="@drawable/button_style"/>
+        app:layout_constraintBottom_toTopOf="@+id/signInInsteadButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/phoneNumberEditText" />
 
     <TextView
         android:id="@+id/signInInsteadButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/sendOtpButton"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:text="Sign In Instead"
         android:textAlignment="center"
-        android:layout_marginEnd="30dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="30dp"
-        android:layout_marginStart="30dp"
         android:textAllCaps="false"
         android:textColor="@color/colorPrimary"
         android:textSize="18sp"
-        android:text="Sign In Instead" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/sendOtpButton"
+        app:layout_constraintStart_toStartOf="@+id/sendOtpButton"
+        app:layout_constraintTop_toBottomOf="@+id/sendOtpButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

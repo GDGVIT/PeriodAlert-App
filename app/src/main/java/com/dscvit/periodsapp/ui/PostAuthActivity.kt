@@ -17,6 +17,7 @@ import com.dscvit.periodsapp.utils.PreferenceHelper.set
 import kotlinx.android.synthetic.main.activity_post_auth.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
 import com.dscvit.periodsapp.utils.shortToast
 import java.util.*
 
@@ -92,4 +93,6 @@ class PostAuthActivity : AppCompatActivity() {
             post_auth_nav_host.findNavController()
         )
     }
+
+    override fun onSupportNavigateUp() = findNavController(R.id.post_auth_nav_host).navigateUp()
 }
